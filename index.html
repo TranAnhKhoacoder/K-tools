@@ -2,8 +2,8 @@
 <html lang="vi" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-GPT - AI Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>K-GPT - AI Studio Intelligence</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -17,8 +17,8 @@
                 extend: {
                     colors: {
                         kgpt: {
-                            bg: '#080B11',
-                            card: '#111726',
+                            bg: '#05070A',
+                            card: '#0D1322',
                             border: '#1E293B',
                             accent: '#6366F1',
                             glow: '#8B5CF6',
@@ -37,30 +37,32 @@
     </script>
     <style>
         body {
-            background-color: #080B11;
+            background-color: #05070A;
             color: #F8FAFC;
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .glass-panel {
-            background: rgba(17, 23, 38, 0.85);
-            backdrop-filter: blur(16px);
+            background: rgba(13, 19, 34, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .glass-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(30, 41, 59, 0.35);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(10, 15, 28, 0.5);
         }
         ::-webkit-scrollbar-thumb {
             background: #334155;
@@ -70,248 +72,286 @@
             background: #6366F1;
         }
 
-        @keyframes pulse-dot {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.35); opacity: 0.5; }
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+            50% { transform: scale(1.05); opacity: 0.8; box-shadow: 0 0 35px rgba(139, 92, 246, 0.7); }
         }
-        .animate-pulse-dot {
-            animation: pulse-dot 2s infinite ease-in-out;
+        .animate-pulse-glow {
+            animation: pulse-glow 3s infinite ease-in-out;
         }
 
-        .markdown-body p { margin-bottom: 0.75rem; line-height: 1.7; }
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 12s linear infinite;
+        }
+
+        /* Markdown styling for rich AI outputs */
+        .markdown-body p { margin-bottom: 0.85rem; line-height: 1.75; }
         .markdown-body p:last-child { margin-bottom: 0; }
-        .markdown-body ul, .markdown-body ol { margin-left: 1.5rem; margin-bottom: 0.75rem; list-style-type: disc; }
-        .markdown-body code { font-family: 'Fira Code', monospace; background: rgba(15, 23, 42, 0.9); padding: 0.2rem 0.45rem; border-radius: 0.3rem; font-size: 0.85em; color: #38BDF8; }
-        .markdown-body pre { font-family: 'Fira Code', monospace; background: #0B0F19; padding: 1rem; border-radius: 0.75rem; overflow-x: auto; margin-bottom: 0.75rem; border: 1px solid #1E293B; }
-        .markdown-body pre code { background: transparent; padding: 0; color: #E2E8F0; }
-        .markdown-body h3 { font-size: 1.15rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #F8FAFC; }
-        .markdown-body h4 { font-size: 1rem; font-weight: 600; margin-top: 0.8rem; margin-bottom: 0.4rem; color: #E2E8F0; }
+        .markdown-body ul, .markdown-body ol { margin-left: 1.5rem; margin-bottom: 0.85rem; list-style-type: disc; }
+        .markdown-body code { font-family: 'Fira Code', monospace; background: rgba(15, 23, 42, 0.95); padding: 0.2rem 0.5rem; border-radius: 0.35rem; font-size: 0.85em; color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.2); }
+        .markdown-body pre { font-family: 'Fira Code', monospace; background: #030712; padding: 1.2rem; border-radius: 0.85rem; overflow-x: auto; margin-bottom: 1rem; border: 1px solid #1E293B; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5); }
+        .markdown-body pre code { background: transparent; padding: 0; color: #E2E8F0; border: none; }
+        .markdown-body h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.2rem; margin-bottom: 0.6rem; color: #F8FAFC; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.3rem; }
+        .markdown-body h4 { font-size: 1.05rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.4rem; color: #E2E8F0; }
+        .markdown-body blockquote { border-left: 4px solid #6366F1; padding-left: 1rem; margin: 1rem 0; color: #94A3B8; font-style: italic; background: rgba(99, 102, 241, 0.05); padding-top: 0.5rem; padding-bottom: 0.5rem; border-radius: 0 0.5rem 0.5rem 0; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen justify-between antialiased selection:bg-indigo-500 selection:text-white">
 
     <!-- Top Navigation Header -->
-    <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 px-4 lg:px-6 py-3">
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800 px-3 sm:px-6 py-3">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             
             <div class="flex items-center space-x-3">
-                <button onclick="switchMode('chat')" class="flex items-center space-x-2.5 cursor-pointer focus:outline-none">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                        <i class="fa-solid fa-brain text-white text-xl"></i>
+                <button onclick="switchMode('chat')" class="flex items-center space-x-2.5 cursor-pointer focus:outline-none group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-brain text-white text-lg"></i>
                     </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 tracking-wider">K-GPT</span>
+                    <div class="text-left">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-xl sm:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 tracking-wider">K-GPT</span>
+                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 hidden sm:inline-block">AI Studio</span>
                         </div>
                     </div>
                 </button>
             </div>
 
-            <!-- Mode Selector Switches -->
-            <div class="hidden md:flex items-center space-x-1 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800 shadow-inner">
+            <!-- Mode Selector Switches (Desktop) -->
+            <div class="hidden md:flex items-center space-x-1 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 shadow-inner">
                 <button id="btnNavChat" onclick="switchMode('chat')" class="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 bg-indigo-600 text-white shadow-md">
                     <i class="fa-solid fa-comments"></i>
                     <span>Trò Chuyện AI</span>
                 </button>
-                <button id="btnNavImage" onclick="switchMode('image')" class="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-800">
+                <button id="btnNavImage" onclick="switchMode('image')" class="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-900">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>AI Image Studio</span>
+                    <span>Tạo Ảnh AI</span>
                 </button>
-                <button id="btnNavVideo" onclick="switchMode('video')" class="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-800">
+                <button id="btnNavVideo" onclick="switchMode('video')" class="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-900">
                     <i class="fa-solid fa-film"></i>
-                    <span>AI Video Studio</span>
+                    <span>Tạo Video AI</span>
                 </button>
             </div>
 
-            <div class="flex items-center space-x-3">
-                <button onclick="openFeedbackModal()" class="flex items-center space-x-2 text-xs font-semibold px-3 py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/30 hover:bg-purple-600/30 transition">
+            <!-- Top Right Info -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <button onclick="openFeedbackModal()" class="flex items-center space-x-1.5 text-xs font-semibold px-3 py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/30 hover:bg-purple-600/30 transition">
                     <i class="fa-solid fa-paper-plane"></i>
-                    <span>Góp Ý</span>
+                    <span class="hidden sm:inline">Góp Ý</span>
                 </button>
-                <div class="h-6 w-[1px] bg-slate-800 hidden sm:block"></div>
-                <div class="flex items-center space-x-2 bg-slate-900/80 border border-slate-800 rounded-full px-3 py-1">
-                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-dot"></div>
+                <div class="hidden lg:flex items-center space-x-2 bg-slate-950/80 border border-slate-800/80 rounded-full px-3.5 py-1">
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
                     <span class="text-xs text-slate-300 font-medium">📍 Huế, Việt Nam | 28/10/2026</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Mobile Navigation Switch Bar -->
-    <div class="md:hidden flex justify-around bg-slate-950/90 border-b border-slate-800/80 p-2 text-xs">
-        <button onclick="switchMode('chat')" class="flex-1 py-2 rounded-lg font-medium text-center bg-indigo-600 text-white">
-            <i class="fa-solid fa-comments mr-1"></i> Chat
+    <!-- Mobile Navigation Bar -->
+    <div class="md:hidden flex justify-around bg-slate-950/95 border-b border-slate-800/80 p-2 text-xs sticky top-[65px] z-40 backdrop-blur-md">
+        <button id="mBtnChat" onclick="switchMode('chat')" class="flex-1 py-2 rounded-xl font-bold text-center bg-indigo-600 text-white transition shadow">
+            <i class="fa-solid fa-comments mr-1"></i> Trò Chuyện
         </button>
-        <button onclick="switchMode('image')" class="flex-1 py-2 rounded-lg font-medium text-center text-slate-400">
+        <button id="mBtnImage" onclick="switchMode('image')" class="flex-1 py-2 rounded-xl font-bold text-center text-slate-400 hover:text-white transition">
             <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Tạo Ảnh
         </button>
-        <button onclick="switchMode('video')" class="flex-1 py-2 rounded-lg font-medium text-center text-slate-400">
+        <button id="mBtnVideo" onclick="switchMode('video')" class="flex-1 py-2 rounded-xl font-bold text-center text-slate-400 hover:text-white transition">
             <i class="fa-solid fa-film mr-1"></i> Tạo Video
         </button>
     </div>
 
     <!-- Main Content Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-6 py-4 flex gap-6 overflow-hidden relative">
+    <main class="flex-1 max-w-7xl w-full mx-auto px-2 sm:px-4 lg:px-6 py-3 sm:py-4 flex gap-4 overflow-hidden relative">
 
-        <!-- Sidebar Panel -->
-        <aside class="hidden lg:flex flex-col w-64 glass-panel rounded-2xl p-4 shrink-0 border border-slate-800/80 justify-between">
+        <!-- Sidebar Panel (Desktop) -->
+        <aside class="hidden lg:flex flex-col w-72 glass-panel rounded-2xl p-4 shrink-0 border border-slate-800/80 justify-between shadow-xl">
             <div class="space-y-4">
-                <button onclick="clearCurrentSession()" class="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/20 transition duration-200">
-                    <i class="fa-solid fa-plus"></i>
+                <button onclick="clearCurrentSession()" class="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:opacity-95 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 transition duration-200">
+                    <i class="fa-solid fa-plus text-xs"></i>
                     <span>Đoạn chat mới</span>
                 </button>
 
                 <div>
-                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-2">Gần đây</h4>
-                    <div id="historyList" class="space-y-1.5 max-h-[350px] overflow-y-auto pr-1">
-                        <div class="p-2.5 rounded-xl bg-slate-800/40 text-xs text-slate-300 truncate cursor-pointer hover:bg-slate-800">Cập nhật công nghệ 2026</div>
-                        <div class="p-2.5 rounded-xl text-xs text-slate-400 truncate cursor-pointer hover:bg-slate-800">Tối ưu hóa lập trình viên</div>
+                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5 px-2">Phiên thảo luận gần đây</h4>
+                    <div id="historyList" class="space-y-1.5 max-h-[380px] overflow-y-auto pr-1">
+                        <div onclick="fillPrompt('Phân tích cấu trúc kinh tế vĩ đại toàn cầu 2026')" class="p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-800/80 text-xs text-slate-300 truncate cursor-pointer transition border border-slate-800/50">Phân tích kinh tế vĩ mô 2026</div>
+                        <div onclick="fillPrompt('Hướng dẫn tối ưu mã nguồn Python bất đồng bộ')" class="p-2.5 rounded-xl hover:bg-slate-800/80 text-xs text-slate-400 truncate cursor-pointer transition border border-transparent">Tối ưu mã nguồn Python</div>
                     </div>
                 </div>
             </div>
 
             <!-- Pro Tools Box -->
             <div class="mt-auto pt-4 border-t border-slate-800/80">
-                <div class="p-3 rounded-xl bg-gradient-to-br from-indigo-950/60 to-purple-950/60 border border-indigo-500/20">
-                    <div class="flex items-center space-x-2 text-indigo-300 font-bold text-xs mb-1">
-                        <i class="fa-solid fa-sparkles text-amber-400"></i>
+                <div class="p-3.5 rounded-xl bg-gradient-to-br from-indigo-950/50 to-purple-950/50 border border-indigo-500/20 shadow-inner">
+                    <div class="flex items-center space-x-2 text-indigo-300 font-bold text-xs mb-1.5">
+                        <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
                         <span>K-GPT Core Intelligence</span>
                     </div>
-                    <p class="text-[11px] text-slate-400">Được tích hợp trí tuệ thế hệ mới từ KGPT AI, hỗ trợ tư duy logic mở rộng, đọc hiểu hình ảnh, viết mã nguồn và xây dựng prompt hình ảnh/video vượt trội.</p>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Được tích hợp trí tuệ thế hệ mới từ KGPT AI, hỗ trợ tư duy logic mở rộng, đọc hiểu hình ảnh, viết mã nguồn và xây dựng prompt hình ảnh/video vượt trội.</p>
                 </div>
             </div>
         </aside>
 
         <!-- Dynamic Content Section -->
-        <section class="flex-1 flex flex-col h-[calc(100vh-170px)] min-h-[550px] glass-panel rounded-2xl overflow-hidden border border-slate-800/80 relative">
+        <section class="flex-1 flex flex-col h-[calc(100vh-140px)] sm:h-[calc(100vh-160px)] min-h-[500px] glass-panel rounded-2xl overflow-hidden border border-slate-800/80 relative shadow-2xl">
             
             <!-- 1. CHAT MODE PANEL -->
             <div id="panelChat" class="flex-1 flex flex-col h-full">
-                <div id="chatMessages" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
-                    <div class="max-w-2xl mx-auto my-12 text-center">
-                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-3xl shadow-xl shadow-indigo-500/20">
+                <div id="chatMessages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+                    <div class="max-w-2xl mx-auto my-8 sm:my-14 text-center px-4">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white text-3xl sm:text-4xl shadow-2xl shadow-indigo-500/30 animate-pulse-glow">
                             <i class="fa-solid fa-brain"></i>
                         </div>
-                        <h2 class="text-2xl font-bold text-white mb-2">Xin chào, tôi là K-GPT</h2>
-                        <p class="text-sm text-slate-400 mb-6">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2 tracking-tight">Xin chào, tôi là K-GPT</h2>
+                        <p class="text-xs sm:text-sm text-slate-400 mb-6 sm:mb-8 leading-relaxed max-w-xl mx-auto">
                             Được tích hợp trí tuệ thế hệ mới từ KGPT AI, hỗ trợ tư duy logic mở rộng, đọc hiểu hình ảnh, viết mã nguồn và xây dựng prompt hình ảnh/video vượt trội.
                         </p>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-left">
-                            <button onclick="fillPrompt('Xu hướng công nghệ thông tin nổi bật nhất tính đến tháng 10 năm 2026?')" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 transition">
-                                💡 Xu hướng công nghệ 2026
+                            <button onclick="fillPrompt('Xu hướng công nghệ thông tin tiên tiến nhất tính đến tháng 10 năm 2026?')" class="p-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-indigo-500/50 transition shadow-sm group">
+                                <span class="font-bold text-indigo-400 block mb-1 group-hover:underline">💡 Xu hướng công nghệ</span>
+                                <span class="text-[11px] text-slate-400">Khám phá các tiến tựu mới nhất 2026</span>
                             </button>
-                            <button onclick="fillPrompt('Viết một đoạn code Python tính số nguyên tố tối ưu.')" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 transition">
-                                💻 Viết mã nguồn Python
+                            <button onclick="fillPrompt('Viết một thuật toán tối ưu bằng Python xử lý dữ liệu lớn.')" class="p-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-purple-500/50 transition shadow-sm group">
+                                <span class="font-bold text-purple-400 block mb-1 group-hover:underline">💻 Lập trình thông minh</span>
+                                <span class="text-[11px] text-slate-400">Tạo mã nguồn Python tốc độ cao</span>
                             </button>
-                            <button onclick="fillPrompt('Lên kịch bản chi tiết cho video quảng cáo công nghệ.')" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 transition">
-                                🎬 Lên kịch bản video
+                            <button onclick="fillPrompt('Lên kịch bản chi tiết cho video quảng cáo thương hiệu điện tử.')" class="p-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-pink-500/50 transition shadow-sm group">
+                                <span class="font-bold text-pink-400 block mb-1 group-hover:underline">🎬 Kịch bản đa phương tiện</span>
+                                <span class="text-[11px] text-slate-400">Sáng tạo nội dung video chuyên nghiệp</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Attached Image Preview Container -->
-                <div id="attachedImagePreview" class="hidden px-4 py-2 bg-slate-900 border-t border-slate-800 flex items-center space-x-3">
+                <div id="attachedImagePreview" class="hidden px-4 py-2 bg-slate-900/95 border-t border-slate-800 flex items-center space-x-3">
                     <img id="attachedImg" src="" alt="Upload Preview" class="w-12 h-12 rounded-lg object-cover border border-slate-700">
                     <div class="flex-1">
-                        <p class="text-xs text-slate-200 font-medium">Hình ảnh đã tải lên để AI phân tích</p>
-                        <p class="text-[10px] text-slate-400" id="attachedImgName">image.png</p>
+                        <p class="text-xs text-slate-200 font-medium">Hình ảnh đã đính kèm để phân tích</p>
+                        <p class="text-[10px] text-slate-400 font-mono" id="attachedImgName">image.png</p>
                     </div>
-                    <button onclick="removeAttachedImage()" class="text-slate-400 hover:text-red-400 p-1">
-                        <i class="fa-solid fa-xmark"></i>
+                    <button onclick="removeAttachedImage()" class="text-slate-400 hover:text-red-400 p-2 transition">
+                        <i class="fa-solid fa-xmark text-base"></i>
                     </button>
                 </div>
 
                 <!-- Input Controls -->
-                <div class="p-3 md:p-4 bg-slate-950/80 border-t border-slate-800/80">
+                <div class="p-3 sm:p-4 bg-slate-950/90 border-t border-slate-800/80 backdrop-blur-md">
                     <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
                     
                     <form id="chatForm" onsubmit="handleChatSubmit(event)" class="relative flex items-center max-w-4xl mx-auto">
-                        <button type="button" onclick="const input = document.getElementById('imageInput'); if(input) input.click();" title="Đính kèm hình ảnh" class="absolute left-3 text-slate-400 hover:text-indigo-400 transition">
-                            <i class="fa-solid fa-paperclip text-sm"></i>
+                        <button type="button" onclick="document.getElementById('imageInput').click();" title="Đính kèm hình ảnh" class="absolute left-3.5 text-slate-400 hover:text-indigo-400 transition p-1">
+                            <i class="fa-solid fa-paperclip text-base"></i>
                         </button>
-                        <textarea id="chatInput" rows="1" placeholder="Nhập câu hỏi hoặc yêu cầu của bạn..." 
-                            class="w-full bg-slate-900/90 text-slate-100 placeholder-slate-500 text-sm rounded-xl pl-10 pr-14 py-3 border border-slate-700 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 resize-none max-h-32"
+                        <textarea id="chatInput" rows="1" placeholder="Nhập câu hỏi hoặc yêu cầu của bạn tại đây..." 
+                            class="w-full bg-slate-900/90 text-slate-100 placeholder-slate-500 text-sm sm:text-base rounded-2xl pl-12 pr-14 py-3.5 border border-slate-700/80 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 resize-none max-h-36 shadow-inner"
                             onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); handleChatSubmit(event); }"></textarea>
                         
-                        <button type="submit" class="absolute right-2 text-white bg-indigo-600 hover:bg-indigo-500 w-9 h-9 rounded-lg flex items-center justify-center transition">
+                        <button type="submit" class="absolute right-2.5 text-white bg-indigo-600 hover:bg-indigo-500 w-10 h-10 rounded-xl flex items-center justify-center transition shadow-lg shadow-indigo-600/30">
                             <i class="fa-solid fa-arrow-up text-sm"></i>
                         </button>
                     </form>
+                    <div class="text-center mt-2">
+                        <span class="text-[10px] text-slate-500 font-medium">K-GPT Core Engine | Cập nhật dữ liệu đến 28/10/2026 tại Huế, Việt Nam</span>
+                    </div>
                 </div>
             </div>
 
             <!-- 2. AI IMAGE STUDIO PANEL -->
-            <div id="panelImage" class="hidden flex-1 flex flex-col h-full overflow-y-auto p-4 md:p-6 space-y-6">
+            <div id="panelImage" class="hidden flex-1 flex flex-col h-full overflow-y-auto p-4 sm:p-6 space-y-6">
                 <div class="border-b border-slate-800 pb-4">
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
                         <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> AI Image Studio
                     </h2>
-                    <p class="text-xs text-slate-400">Tạo hình ảnh chất lượng cao dựa trên prompt thông minh</p>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Tạo hình ảnh chất lượng cao dựa trên prompt thông minh chuẩn K-GPT</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <div class="lg:col-span-5 space-y-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Mô tả hình ảnh mong muốn</label>
-                            <textarea id="imagePrompt" rows="4" placeholder="Ví dụ: Thành phố tương lai lung linh ánh đèn neon về đêm, 8k resolution..." 
-                                class="w-full bg-slate-900 text-slate-100 placeholder-slate-500 text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-purple-500"></textarea>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Mô tả hình ảnh mong muốn (Prompt)</label>
+                            <textarea id="imagePrompt" rows="4" placeholder="Ví dụ: Thành phố tương lai lung linh ánh đèn neon về đêm, phản chiếu trên mặt nước, độ phân giải 8k..." 
+                                class="w-full bg-slate-900/90 text-slate-100 placeholder-slate-500 text-sm rounded-xl p-3.5 border border-slate-700 focus:outline-none focus:border-purple-500 resize-none"></textarea>
                         </div>
 
-                        <button onclick="generateImage()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition flex items-center justify-center space-x-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Tỷ lệ khung hình</label>
+                            <select id="imageAspect" class="w-full bg-slate-900/90 text-slate-200 text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-purple-500">
+                                <option value="1:1">Vuông (1:1) - Phù hợp Avatar / IG</option>
+                                <option value="16:9">Ngang (16:9) - Phù hợp Wallpaper / Desktop</option>
+                                <option value="9:16">Dọc (9:16) - Phù hợp Mobile Story / Reels</option>
+                            </select>
+                        </div>
+
+                        <button onclick="generateImage()" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:opacity-95 text-white font-bold text-sm shadow-xl shadow-purple-600/30 transition flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-sparkles"></i>
-                            <span>Tạo Hình Ảnh AI</span>
+                            <span>Tạo Hình Ảnh AI Ngay</span>
                         </button>
                     </div>
 
-                    <div class="lg:col-span-7 flex flex-col items-center justify-center glass-card rounded-2xl p-4 min-h-[380px] border border-slate-800 relative">
+                    <div class="lg:col-span-7 flex flex-col items-center justify-center glass-card rounded-2xl p-4 min-h-[400px] border border-slate-800 relative">
                         <div id="imgPlaceholder" class="text-center p-6">
-                            <i class="fa-regular fa-image text-5xl text-slate-700 mb-3 block"></i>
+                            <i class="fa-regular fa-image text-5xl text-slate-600 mb-3 block"></i>
                             <p class="text-sm text-slate-400 font-medium">Kết quả tạo hình ảnh hiển thị tại đây</p>
                         </div>
                         <div id="imgLoading" class="hidden flex-col items-center justify-center space-y-3">
-                            <div class="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                            <div class="w-14 h-14 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                             <p class="text-sm text-purple-300 font-medium animate-pulse">K-GPT AI đang render hình ảnh...</p>
                         </div>
-                        <div id="imgResultContainer" class="hidden w-full h-full flex flex-col items-center">
+                        <div id="imgResultContainer" class="hidden w-full h-full flex flex-col items-center justify-center space-y-3">
                             <img id="imgResult" src="" alt="AI Output" class="max-h-[380px] w-auto rounded-xl shadow-2xl object-contain border border-slate-700">
+                            <a id="downloadImgBtn" href="#" download="kgpt-image.jpg" class="text-xs font-semibold px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition shadow">
+                                <i class="fa-solid fa-download mr-1"></i> Tải ảnh xuống
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- 3. AI VIDEO STUDIO PANEL -->
-            <div id="panelVideo" class="hidden flex-1 flex flex-col h-full overflow-y-auto p-4 md:p-6 space-y-6">
+            <div id="panelVideo" class="hidden flex-1 flex flex-col h-full overflow-y-auto p-4 sm:p-6 space-y-6">
                 <div class="border-b border-slate-800 pb-4">
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
                         <i class="fa-solid fa-film text-pink-500"></i> AI Video Storyboard Studio
                     </h2>
-                    <p class="text-xs text-slate-400">Xây dựng phân cảnh kịch bản và mô phỏng chuyển động video</p>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Xây dựng phân cảnh kịch bản và mô phỏng chuyển động video chất lượng cao</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <div class="lg:col-span-5 space-y-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Ý tưởng kịch bản video</label>
-                            <textarea id="videoPrompt" rows="4" placeholder="Ví dụ: Góc máy drone lướt qua thung lũng xanh mướt lúc bình minh..." 
-                                class="w-full bg-slate-900 text-slate-100 placeholder-slate-500 text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-pink-500"></textarea>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Ý tưởng phân cảnh kịch bản video</label>
+                            <textarea id="videoPrompt" rows="4" placeholder="Ví dụ: Góc máy drone bay lướt qua thung lũng xanh mướt lúc bình minh, ánh sáng mặt trời chiếu rọi..." 
+                                class="w-full bg-slate-900/90 text-slate-100 placeholder-slate-500 text-sm rounded-xl p-3.5 border border-slate-700 focus:outline-none focus:border-pink-500 resize-none"></textarea>
                         </div>
-                        <button onclick="generateVideo()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-pink-600/30 transition">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Độ dài mô phỏng</label>
+                            <select id="videoDuration" class="w-full bg-slate-900/90 text-slate-200 text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-pink-500">
+                                <option value="5">5 Giây - Short / TikTok Preview</option>
+                                <option value="15">15 Giây - Teaser Motion</option>
+                                <option value="30">30 Giây - Cinematic Storyboard</option>
+                            </select>
+                        </div>
+                        <button onclick="generateVideo()" class="w-full py-4 rounded-xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:opacity-95 text-white font-bold text-sm shadow-xl shadow-pink-600/30 transition">
                             Render Motion Simulation
                         </button>
                     </div>
 
-                    <div class="lg:col-span-7 flex flex-col items-center justify-center glass-card rounded-2xl p-4 min-h-[380px] border border-slate-800 relative">
+                    <div class="lg:col-span-7 flex flex-col items-center justify-center glass-card rounded-2xl p-4 min-h-[400px] border border-slate-800 relative">
                         <div id="vidPlaceholder" class="text-center p-6">
-                            <i class="fa-solid fa-video text-5xl text-slate-700 mb-3 block"></i>
+                            <i class="fa-solid fa-video text-5xl text-slate-600 mb-3 block"></i>
                             <p class="text-sm text-slate-400 font-medium">Khung xem trước Motion Video</p>
                         </div>
                         <div id="vidLoading" class="hidden flex-col items-center justify-center space-y-3">
-                            <div class="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
-                            <p class="text-sm text-pink-300 font-medium animate-pulse">Đang xử lý phân cảnh video...</p>
+                            <div class="w-14 h-14 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+                            <p class="text-sm text-pink-300 font-medium animate-pulse">Đang xử lý phân cảnh kịch bản video...</p>
                         </div>
-                        <div id="vidResultContainer" class="hidden w-full h-full flex flex-col items-center">
-                            <canvas id="videoCanvas" class="max-h-[360px] w-auto object-contain rounded-xl border border-slate-700"></canvas>
+                        <div id="vidResultContainer" class="hidden w-full h-full flex flex-col items-center justify-center space-y-3">
+                            <canvas id="videoCanvas" class="max-h-[360px] w-auto object-contain rounded-xl border border-slate-700 shadow-2xl"></canvas>
+                            <p class="text-xs text-slate-400 font-medium">Đang phát mô phỏng chuyển động video theo prompt</p>
                         </div>
                     </div>
                 </div>
@@ -328,41 +368,41 @@
                 <div>Bản quyền thuộc về <span class="text-white font-semibold">Trần Anh Khoa</span> | Thiết kế và xây dựng: <span class="text-indigo-400 font-bold">KHOACIT</span></div>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-4">
-                <a href="tel:0899997781" class="hover:text-indigo-400"><i class="fa-solid fa-phone text-indigo-400 mr-1"></i>0899997781</a>
-                <a href="mailto:anhkhoat363@gmail.com" class="hover:text-indigo-400"><i class="fa-solid fa-envelope text-indigo-400 mr-1"></i>anhkhoat363@gmail.com</a>
-                <button onclick="openFeedbackModal()" class="hover:text-indigo-400"><i class="fa-solid fa-comments text-indigo-400 mr-1"></i>Liên hệ - Góp ý</button>
+                <a href="tel:0899997781" class="hover:text-indigo-400 transition"><i class="fa-solid fa-phone text-indigo-400 mr-1"></i>0899997781</a>
+                <a href="mailto:anhkhoat363@gmail.com" class="hover:text-indigo-400 transition"><i class="fa-solid fa-envelope text-indigo-400 mr-1"></i>anhkhoat363@gmail.com</a>
+                <button onclick="openFeedbackModal()" class="hover:text-indigo-400 transition"><i class="fa-solid fa-comments text-indigo-400 mr-1"></i>Liên hệ - Góp ý</button>
             </div>
-            <div class="flex items-center space-x-3 bg-slate-900/90 px-3 py-1.5 rounded-lg border border-slate-800">
-                <span>Đang truy cập: <strong id="onlineCount" class="text-emerald-400">32</strong></span>
-                <span>•</span>
-                <span>Lượt đã truy cập: <strong id="totalVisits" class="text-indigo-400">148,920</strong></span>
+            <div class="flex items-center space-x-3 bg-slate-950/90 px-3.5 py-1.5 rounded-xl border border-slate-800">
+                <span>Đang truy cập: <strong id="onlineCount" class="text-emerald-400">38</strong></span>
+                <span class="text-slate-700">•</span>
+                <span>Tổng lượt truy cập: <strong id="totalVisits" class="text-indigo-400">152,480</strong></span>
             </div>
         </div>
     </footer>
 
     <!-- MODAL FEEDBACK -->
-    <div id="feedbackModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
-        <div class="glass-panel border border-slate-700 rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
-            <button onclick="closeFeedbackModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+    <div id="feedbackModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-panel border border-slate-700 rounded-2xl w-full max-w-md p-6 relative shadow-2xl animate-in fade-in zoom-in duration-200">
+            <button onclick="closeFeedbackModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
                 <i class="fa-solid fa-paper-plane text-purple-400"></i> Liên hệ - Góp ý K-GPT
             </h3>
-            <p class="text-xs text-slate-400 mb-4">Gửi ý kiến đóng góp trực tiếp đến ban quản trị.</p>
+            <p class="text-xs text-slate-400 mb-4">Gửi ý kiến đóng góp trực tiếp đến ban quản trị K-GPT Studio.</p>
 
-            <form onsubmit="submitFeedback(event)" class="space-y-3">
+            <form onsubmit="submitFeedback(event)" class="space-y-3.5">
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Họ và tên</label>
-                    <input type="text" id="fbName" required placeholder="Nguyễn Văn A" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+                    <input type="text" id="fbName" required placeholder="Nguyễn Văn A" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Nội dung góp ý</label>
-                    <textarea id="fbContent" rows="3" required placeholder="Nhập ý kiến của bạn..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"></textarea>
+                    <textarea id="fbContent" rows="3" required placeholder="Nhập ý kiến đánh giá của bạn..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
                 </div>
-                <div class="flex justify-end space-x-2 pt-2">
-                    <button type="button" onclick="closeFeedbackModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Hủy</button>
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-lg shadow-purple-600/30">Gửi Góp Ý</button>
+                <div class="flex justify-end space-x-2.5 pt-2">
+                    <button type="button" onclick="closeFeedbackModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 transition">Hủy</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-lg shadow-purple-600/30 transition">Gửi Góp Ý</button>
                 </div>
             </form>
         </div>
@@ -376,9 +416,9 @@
                 if (el) {
                     let current = parseInt(el.innerText);
                     let change = Math.floor(Math.random() * 5) - 2;
-                    el.innerText = Math.max(20, current + change);
+                    el.innerText = Math.max(25, current + change);
                 }
-            }, 6000);
+            }, 5000);
         };
 
         function switchMode(mode) {
@@ -386,33 +426,76 @@
             document.getElementById('panelImage').classList.add('hidden');
             document.getElementById('panelVideo').classList.add('hidden');
 
-            if (mode === 'chat') document.getElementById('panelChat').classList.remove('hidden');
-            if (mode === 'image') document.getElementById('panelImage').classList.remove('hidden');
-            if (mode === 'video') document.getElementById('panelVideo').classList.remove('hidden');
+            // Reset nav buttons
+            ['btnNavChat', 'btnNavImage', 'btnNavVideo'].forEach(id => {
+                const btn = document.getElementById(id);
+                if(btn) {
+                    btn.className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-900";
+                }
+            });
+            ['mBtnChat', 'mBtnImage', 'mBtnVideo'].forEach(id => {
+                const btn = document.getElementById(id);
+                if(btn) {
+                    btn.className = "flex-1 py-2 rounded-xl font-bold text-center text-slate-400 hover:text-white transition";
+                }
+            });
+
+            if (mode === 'chat') {
+                document.getElementById('panelChat').classList.remove('hidden');
+                document.getElementById('btnNavChat').className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 bg-indigo-600 text-white shadow-md";
+                document.getElementById('mBtnChat').className = "flex-1 py-2 rounded-xl font-bold text-center bg-indigo-600 text-white transition shadow";
+            } else if (mode === 'image') {
+                document.getElementById('panelImage').classList.remove('hidden');
+                document.getElementById('btnNavImage').className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 bg-purple-600 text-white shadow-md";
+                document.getElementById('mBtnImage').className = "flex-1 py-2 rounded-xl font-bold text-center bg-purple-600 text-white transition shadow";
+            } else if (mode === 'video') {
+                document.getElementById('panelVideo').classList.remove('hidden');
+                document.getElementById('btnNavVideo').className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 bg-pink-600 text-white shadow-md";
+                document.getElementById('mBtnVideo').className = "flex-1 py-2 rounded-xl font-bold text-center bg-pink-600 text-white transition shadow";
+            }
         }
 
         let chatHistory = [];
+        let attachedImageBase64 = null;
 
         async function handleChatSubmit(e) {
             if (e) e.preventDefault();
             const inputEl = document.getElementById('chatInput');
             const userText = inputEl.value.trim();
-            if (!userText) return;
+            if (!userText && !attachedImageBase64) return;
 
-            appendChatMessage('user', userText);
+            let displayContent = userText;
+            if (attachedImageBase64) {
+                displayContent = `<div class="mb-2"><img src="${attachedImageBase64}" class="max-h-48 rounded-lg border border-slate-700 object-cover"></div>` + userText;
+            }
+
+            appendChatMessage('user', displayContent);
             inputEl.value = '';
+            inputEl.style.height = 'auto';
+            
+            const currentImg = attachedImageBase64;
             removeAttachedImage();
 
             const loadingId = appendChatLoading();
 
             try {
-                chatHistory.push({ role: "user", parts: [{ text: userText }] });
+                // Build content part for Gemini API
+                let parts = [{ text: userText || "Phân tích hình ảnh này giúp tôi." }];
+                if (currentImg) {
+                    const base64Data = currentImg.split(',')[1];
+                    const mimeType = currentImg.split(';')[0].split(':')[1];
+                    parts.unshift({
+                        inlineData: { mimeType: mimeType, data: base64Data }
+                    });
+                }
+
+                chatHistory.push({ role: "user", parts: parts });
 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=`;
                 const payload = {
                     contents: chatHistory,
                     systemInstruction: {
-                        parts: [{ text: "You are K-GPT, an advanced AI assistant. Current date is October 28, 2026. Current location is Hue, Vietnam. Provide precise, intelligent, well-structured, up-to-date answers in Vietnamese." }]
+                        parts: [{ text: "You are K-GPT, an ultra-advanced AI assistant powered by the official Gemini architecture. Current date is October 28, 2026. Location is Hue, Vietnam. Creator and architect is Tran Anh Khoa (KhoaCIT). Provide highly accurate, deeply logical, beautifully structured (using markdown headers, code blocks, lists), and comprehensive answers in Vietnamese." }]
                     }
                 };
 
@@ -431,21 +514,23 @@
                     chatHistory.push({ role: "model", parts: [{ text: aiText }] });
                     appendChatMessage('ai', formatMarkdown(aiText));
                 } else {
-                    appendChatMessage('ai', formatMarkdown("Xin lỗi, hệ thống đang gặp gián đoạn tạm thời. Vui lòng thử lại sau."));
+                    appendChatMessage('ai', formatMarkdown("Xin lỗi, hệ thống đang bận hoặc gặp gián đoạn tạm thời. Vui lòng thử lại."));
                 }
             } catch (err) {
                 removeChatLoading(loadingId);
-                appendChatMessage('ai', formatMarkdown("Đã xảy ra lỗi kết nối đến máy chủ AI. Vui lòng kiểm tra lại."));
+                appendChatMessage('ai', formatMarkdown("Đã xảy ra lỗi kết nối mạng. Vui lòng kiểm tra lại kết nối của bạn."));
             }
         }
 
         function formatMarkdown(text) {
             return text
                 .replace(/### (.*?)\n/g, '<h3>$1</h3>')
+                .replace(/## (.*?)\n/g, '<h3>$1</h3>')
                 .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
                 .replace(/`([^`]+)`/g, '<code>$1</code>')
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/> (.*?)\n/g, '<blockquote>$1</blockquote>')
                 .replace(/\n/g, '<br>');
         }
 
@@ -454,7 +539,7 @@
             const msgDiv = document.createElement('div');
             msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-4`;
             msgDiv.innerHTML = `
-                <div class="${sender === 'user' ? 'bg-indigo-600 text-white rounded-2xl rounded-tr-sm' : 'bg-slate-900 border border-slate-800 text-slate-100 rounded-2xl rounded-tl-sm markdown-body'} p-4 max-w-[85%] text-sm shadow-md">
+                <div class="${sender === 'user' ? 'bg-indigo-600 text-white rounded-2xl rounded-tr-sm' : 'glass-panel border border-slate-800 text-slate-100 rounded-2xl rounded-tl-sm markdown-body'} p-4 max-w-[90%] sm:max-w-[82%] text-sm shadow-xl">
                     ${htmlContent}
                 </div>
             `;
@@ -468,7 +553,7 @@
             const msgDiv = document.createElement('div');
             msgDiv.id = id;
             msgDiv.className = "flex justify-start mb-4";
-            msgDiv.innerHTML = `<div class="bg-slate-900 border border-slate-800 text-slate-400 p-4 rounded-2xl text-xs flex items-center gap-3"><div class="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div><span>KGPT đang tư duy và tổng hợp câu trả lời...</span></div>`;
+            msgDiv.innerHTML = `<div class="glass-panel border border-slate-800 text-slate-300 p-4 rounded-2xl text-xs flex items-center gap-3 shadow-lg"><div class="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div><span>KGPT đang tư duy và tổng hợp câu trả lời... (Giờ: 13:22 | Huế, Việt Nam)</span></div>`;
             container.appendChild(msgDiv);
             container.scrollTop = container.scrollHeight;
             return id;
@@ -484,19 +569,19 @@
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(evt) {
-                const imgEl = document.getElementById('attachedImg');
-                const nameEl = document.getElementById('attachedImgName');
-                const previewEl = document.getElementById('attachedImagePreview');
-                if (imgEl) imgEl.src = evt.target.result;
-                if (nameEl) nameEl.innerText = file.name;
-                if (previewEl) previewEl.classList.remove('hidden');
+                attachedImageBase64 = evt.target.result;
+                document.getElementById('attachedImg').src = attachedImageBase64;
+                document.getElementById('attachedImgName').innerText = file.name;
+                document.getElementById('attachedImagePreview').classList.remove('hidden');
             };
             reader.readAsDataURL(file);
         }
 
         function removeAttachedImage() {
-            const previewEl = document.getElementById('attachedImagePreview');
-            if (previewEl) previewEl.classList.add('hidden');
+            attachedImageBase64 = null;
+            document.getElementById('attachedImagePreview').classList.add('hidden');
+            const fileInput = document.getElementById('imageInput');
+            if (fileInput) fileInput.value = '';
         }
 
         function fillPrompt(text) {
@@ -507,19 +592,34 @@
             }
         }
 
+        function clearCurrentSession() {
+            chatHistory = [];
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="max-w-2xl mx-auto my-12 text-center px-4">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-3xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white text-3xl shadow-2xl shadow-indigo-500/30 animate-pulse-glow">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-white mb-2">Đoạn chat mới đã sẵn sàng</h2>
+                    <p class="text-sm text-slate-400">Bạn muốn khám phá hoặc giải quyết vấn đề gì hôm nay?</p>
+                </div>
+            `;
+        }
+
         function openFeedbackModal() { document.getElementById('feedbackModal').classList.remove('hidden'); }
         function closeFeedbackModal() { document.getElementById('feedbackModal').classList.add('hidden'); }
         function submitFeedback(e) {
             e.preventDefault();
-            alert('Cảm ơn bạn đã gửi góp ý!');
+            const name = document.getElementById('fbName').value;
+            alert(`Cảm ơn ${name} đã gửi ý kiến đóng góp đến K-GPT Studio!`);
             closeFeedbackModal();
+            document.getElementById('fbName').value = '';
+            document.getElementById('fbContent').value = '';
         }
 
         function generateImage() {
-            const promptEl = document.getElementById('imagePrompt');
-            const prompt = promptEl ? promptEl.value.trim() : '';
+            const prompt = document.getElementById('imagePrompt').value.trim();
             if (!prompt) {
-                alert('Vui lòng nhập mô tả hình ảnh!');
+                alert('Vui lòng nhập mô tả hình ảnh trước khi tạo!');
                 return;
             }
             document.getElementById('imgPlaceholder').classList.add('hidden');
@@ -529,13 +629,14 @@
             setTimeout(() => {
                 document.getElementById('imgLoading').classList.add('hidden');
                 document.getElementById('imgResultContainer').classList.remove('hidden');
-                document.getElementById('imgResult').src = `https://placehold.co/800x600/111726/6366F1?text=${encodeURIComponent(prompt.substring(0, 30))}`;
-            }, 1800);
+                const dummyUrl = `https://placehold.co/1024x1024/0D1322/6366F1?text=${encodeURIComponent(prompt.substring(0, 35))}`;
+                document.getElementById('imgResult').src = dummyUrl;
+                document.getElementById('downloadImgBtn').href = dummyUrl;
+            }, 2000);
         }
 
         function generateVideo() {
-            const promptEl = document.getElementById('videoPrompt');
-            const prompt = promptEl ? promptEl.value.trim() : '';
+            const prompt = document.getElementById('videoPrompt').value.trim();
             if (!prompt) {
                 alert('Vui lòng nhập ý tưởng kịch bản video!');
                 return;
@@ -552,26 +653,26 @@
                 canvas.width = 640;
                 canvas.height = 360;
                 const ctx = canvas.getContext('2d');
-                let hue = 210;
+                let hue = 220;
                 
-                function drawFrame() {
-                    ctx.fillStyle = `hsl(${hue}, 60%, 15%)`;
+                function drawSimFrame() {
+                    ctx.fillStyle = `hsl(${hue}, 70%, 12%)`;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     
                     ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 18px Plus Jakarta Sans';
+                    ctx.font = 'bold 20px Plus Jakarta Sans';
                     ctx.textAlign = 'center';
-                    ctx.fillText('🎬 K-GPT Motion Simulation', canvas.width/2, 160);
+                    ctx.fillText('🎬 K-GPT Motion Simulation 2026', canvas.width/2, 150);
                     
                     ctx.font = '13px Plus Jakarta Sans';
                     ctx.fillStyle = '#94A3B8';
-                    ctx.fillText(prompt.substring(0, 45) + '...', canvas.width/2, 200);
+                    ctx.fillText(prompt.substring(0, 50) + '...', canvas.width/2, 195);
 
-                    hue = (hue + 0.5) % 360;
-                    requestAnimationFrame(drawFrame);
+                    hue = (hue + 0.4) % 360;
+                    requestAnimationFrame(drawSimFrame);
                 }
-                drawFrame();
-            }, 1500);
+                drawSimFrame();
+            }, 1800);
         }
     </script>
 </body>
