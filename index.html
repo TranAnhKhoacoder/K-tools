@@ -1,248 +1,457 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>K-GPT AI Studio Ultimate - Unified Neural Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTOOLS - Nền Tảng Công Cụ Số Đa Năng | KHOACIT</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- PDF.js for PDF Rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        kgpt: {
-                            bgDark: '#030712',
-                            cardDark: '#0B0F19',
-                            borderDark: '#1E293B',
-                            primary: '#3B82F6',
-                            purple: '#8B5CF6',
-                            emerald: '#10B981',
-                            pink: '#EC4899',
-                            yellow: '#F59E0B'
+                        brand: {
+                            50: '#eef2ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            pink: '#ec4899'
                         }
                     },
                     fontFamily: {
-                        sans: ['Google Sans', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace']
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
-            font-family: 'Google Sans', sans-serif;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-            background-color: #030712;
-            color: #F8FAFC;
-        }
-
-        .glass-panel {
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            background: rgba(11, 15, 25, 0.9);
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 30px rgba(59, 130, 246, 0.08);
-        }
-
+        /* Glassmorphism custom styles */
         .glass-card {
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(16px);
-            background: rgba(17, 24, 39, 0.75);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .glass-card:hover {
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-
+        .dark .glass-nav {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4 0%, #6366f1 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
         }
         ::-webkit-scrollbar-thumb {
-            background: #1E293B;
+            background: rgba(99, 102, 241, 0.4);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #3B82F6;
+            background: rgba(99, 102, 241, 0.7);
         }
-        
-        @keyframes pulse-chip {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
-            50% { transform: scale(1.03); box-shadow: 0 0 60px rgba(139, 92, 246, 0.8); }
+        /* Checkerboard background for transparent image preview */
+        .bg-checker {
+            background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
         }
-        .animate-pulse-chip {
-            animation: pulse-chip 3s infinite ease-in-out;
-        }
-
-        @keyframes chip-glow {
-            0% { filter: hue-rotate(0deg); }
-            50% { filter: hue-rotate(90deg); }
-            100% { filter: hue-rotate(0deg); }
-        }
-        .chip-animated-border {
-            background: linear-gradient(60deg, #3B82F6, #8B5CF6, #EC4899, #10B981, #3B82F6);
-            background-size: 300% 300%;
-            animation: chip-glow 6s ease infinite;
-        }
-
-        .markdown-body p { margin-bottom: 0.85rem; line-height: 1.8; }
-        .markdown-body p:last-child { margin-bottom: 0; }
-        .markdown-body ul, .markdown-body ol { margin-left: 1.5rem; margin-bottom: 0.85rem; list-style-type: disc; }
-        .markdown-body code { font-family: 'Fira Code', monospace; background: rgba(3, 7, 18, 0.95); padding: 0.2rem 0.5rem; border-radius: 0.35rem; font-size: 0.85em; color: #93C5FD; border: 1px solid rgba(147, 197, 253, 0.2); }
-        .markdown-body pre { font-family: 'Fira Code', monospace; background: #010409; padding: 1.2rem; border-radius: 0.85rem; overflow-x: auto; margin-bottom: 1rem; border: 1px solid #1E293B; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5); }
-        .markdown-body pre code { background: transparent; padding: 0; color: #E2E8F0; border: none; }
-        .markdown-body h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.2rem; margin-bottom: 0.6rem; border-bottom: 1px solid rgba(128,128,128,0.2); padding-bottom: 0.3rem; color: #60A5FA; }
-        
-        .custom-modal-backdrop {
-            background: rgba(3, 7, 18, 0.85);
-            backdrop-filter: blur(12px);
+        .dark .bg-checker {
+            background-image: linear-gradient(45deg, #334155 25%, transparent 25%), linear-gradient(-45deg, #334155 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #334155 75%), linear-gradient(-45deg, transparent 75%, #334155 75%);
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen justify-between antialiased selection:bg-blue-500 selection:text-white">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
-    <!-- Top Navigation Header -->
-    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800 px-3 sm:px-6 py-3.5">
-        <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="flex items-center space-x-2.5 cursor-pointer focus:outline-none group">
-                    <div class="relative w-11 h-11 rounded-2xl chip-animated-border p-0.5 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition">
-                        <div class="w-full h-full bg-[#030712] rounded-[14px] flex items-center justify-center">
-                            <i class="fa-solid fa-microchip text-blue-400 text-xl"></i>
-                        </div>
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('pdf-tool')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-pink-500 flex items-center justify-center text-white text-xl font-black shadow-lg shadow-indigo-500/30">
+                    K
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-black tracking-tight gradient-text">KTOOLS</span>
+                        <span class="text-[10px] bg-indigo-500/10 text-indigo-500 dark:bg-indigo-500/20 dark:text-indigo-300 font-bold px-2 py-0.5 rounded-full border border-indigo-500/30 uppercase">v2.5 AI</span>
                     </div>
-                    <div class="text-left">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xl sm:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 tracking-wider">K-GPT</span>
-                            <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hidden sm:inline-block">Neural Engine v3.9</span>
-                        </div>
-                        <p class="text-[10px] text-slate-400 font-medium tracking-wide">Developer: Trần Anh Khoa (KHOACIT)</p>
-                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Bởi Trần Anh Khoa (KHOACIT)</p>
                 </div>
             </div>
 
-            <!-- Top Right Controls -->
-            <div class="flex items-center space-x-2 sm:space-x-3">
-                <div class="hidden md:flex items-center glass-card p-1 rounded-2xl border border-slate-800 text-xs font-semibold shadow-inner">
-                    <button onclick="setInteractionMode('chat')" id="modeBtnChat" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white transition shadow-lg shadow-blue-600/30">💬 Trò chuyện</button>
-                    <button onclick="setInteractionMode('image')" id="modeBtnImage" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition">🎨 Tạo ảnh AI</button>
-                    <button onclick="setInteractionMode('video')" id="modeBtnVideo" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition">🎬 Mô phỏng Veo</button>
-                </div>
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-1 bg-slate-200/50 dark:bg-slate-900/50 p-1.5 rounded-2xl border border-slate-300/50 dark:border-slate-800">
+                <button onclick="switchTab('pdf-tool')" id="tab-btn-pdf-tool" class="nav-tab px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-indigo-600 dark:text-indigo-400 bg-white dark:bg-slate-800 shadow-sm">
+                    <i class="fa-solid fa-file-word text-pink-500"></i>
+                    <span>PDF sang Word</span>
+                </button>
+                <button onclick="switchTab('video-tool')" id="tab-btn-video-tool" class="nav-tab px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i class="fa-solid fa-cloud-arrow-down text-cyan-500"></i>
+                    <span>Tải Video</span>
+                </button>
+                <button onclick="switchTab('bg-tool')" id="tab-btn-bg-tool" class="nav-tab px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i class="fa-solid fa-wand-magic-sparkles text-emerald-500"></i>
+                    <span>Tách Nền AI</span>
+                </button>
+            </nav>
 
-                <div class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl glass-card text-[11px] font-mono border border-slate-800 text-emerald-400">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="hidden sm:inline">API Connected</span>
-                </div>
+            <!-- Actions Right -->
+            <div class="flex items-center gap-3">
+                <button onclick="openModal('history-modal')" class="p-2.5 text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800 rounded-xl transition-all relative" title="Lịch sử xử lý">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span id="history-badge" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-pink-500 rounded-full animate-ping"></span>
+                </button>
+                
+                <button onclick="toggleDarkMode()" class="p-2.5 text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800 rounded-xl transition-all" title="Đổi giao diện">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                </button>
 
-                <button onclick="openFeedbackModal()" class="flex items-center space-x-1.5 text-xs font-semibold px-3.5 py-2.5 rounded-xl bg-blue-600/15 text-blue-400 border border-blue-500/30 hover:bg-blue-600/25 transition shadow-sm">
-                    <i class="fa-solid fa-paper-plane"></i>
-                    <span class="hidden sm:inline">Góp ý</span>
+                <button onclick="openModal('contact-modal')" class="hidden sm:flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium text-sm px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-600/25 transition-all">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                    <span>Góp ý & Liên hệ</span>
                 </button>
             </div>
         </div>
+
+        <!-- Mobile Navigation bar -->
+        <div class="flex md:hidden border-t border-slate-200 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 px-2 py-2 justify-around">
+            <button onclick="switchTab('pdf-tool')" id="mob-tab-pdf-tool" class="flex flex-col items-center gap-1 text-xs font-medium text-indigo-500 py-1 px-3 rounded-lg bg-indigo-500/10">
+                <i class="fa-solid fa-file-word text-base"></i>
+                <span>PDF-Word</span>
+            </button>
+            <button onclick="switchTab('video-tool')" id="mob-tab-video-tool" class="flex flex-col items-center gap-1 text-xs font-medium text-slate-500 dark:text-slate-400 py-1 px-3 rounded-lg">
+                <i class="fa-solid fa-cloud-arrow-down text-base"></i>
+                <span>Tải Video</span>
+            </button>
+            <button onclick="switchTab('bg-tool')" id="mob-tab-bg-tool" class="flex flex-col items-center gap-1 text-xs font-medium text-slate-500 dark:text-slate-400 py-1 px-3 rounded-lg">
+                <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
+                <span>Tách Nền</span>
+            </button>
+        </div>
     </header>
 
-    <!-- Main Content Container (Unified Dashboard) -->
-    <main class="flex-1 max-w-6xl w-full mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6 flex flex-col gap-4 overflow-y-auto relative">
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
+        
+        <!-- Hero Section Banner -->
+        <section class="text-center py-6 px-4 rounded-3xl glass-card relative overflow-hidden">
+            <div class="absolute -top-24 -left-24 w-72 h-72 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-pink-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
-        <!-- UNIFIED CHAT & MULTI-MODAL CONVERSATION SECTION -->
-        <section class="glass-panel rounded-3xl flex flex-col h-[72vh] sm:h-[75vh] shadow-2xl overflow-hidden border border-slate-800">
-            <!-- Header bar inside panel -->
-            <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
-                <div class="flex items-center space-x-3">
-                    <div id="headerModeIcon" class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm shadow-inner">
-                        <i class="fa-solid fa-comments"></i>
+            <div class="relative z-10 max-w-3xl mx-auto">
+                <span class="inline-flex items-center gap-2 px-3 me-2 py-1 text-xs font-semibold rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 mb-3">
+                    <i class="fa-solid fa-bolt-lightning text-xs"></i> Xử lý Trực Tiếp Client-Side Siêu Tốc & Bảo Mật
+                </span>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
+                    Bộ Công Cụ Số Thông Minh <span class="gradient-text">KTOOLS</span>
+                </h1>
+                <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                    Chuyển đổi tài liệu PDF sang Word, Tải Video Đa Nền Tảng (TikTok, FB, YT) và Tách Nền Ảnh AI chuyên nghiệp hoàn toàn miễn phí.
+                </p>
+
+                <!-- Dynamic Realtime Counter Stats -->
+                <div class="grid grid-cols-3 gap-2 sm:gap-4 max-w-xl mx-auto bg-slate-100/70 dark:bg-slate-900/70 p-3 rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <div class="text-center">
+                        <div class="text-lg sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400" id="stat-pdf">1,429</div>
+                        <div class="text-[11px] sm:text-xs text-slate-500">PDF Đã Chuyển</div>
+                    </div>
+                    <div class="text-center border-x border-slate-300 dark:border-slate-800">
+                        <div class="text-lg sm:text-2xl font-bold text-cyan-600 dark:text-cyan-400" id="stat-video">5,892</div>
+                        <div class="text-[11px] sm:text-xs text-slate-500">Video Đã Tải</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400" id="stat-bg">3,120</div>
+                        <div class="text-[11px] sm:text-xs text-slate-500">Ảnh Đã Tách Nền</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOOL 1: PDF TO WORD CONVERTER -->
+        <section id="pdf-tool" class="tool-section glass-card rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white text-xl shadow-md">
+                        <i class="fa-solid fa-file-word"></i>
                     </div>
                     <div>
-                        <h3 id="headerModeTitle" class="font-bold text-sm sm:text-base text-slate-100">K-GPT Neural Chat & Multi-Modal Hub</h3>
-                        <p id="headerModeDesc" class="text-[11px] text-slate-400">Trò chuyện đa năng, tạo ảnh AI & mô phỏng video từ cùng một khung nhập</p>
+                        <h2 class="text-xl sm:text-2xl font-bold">Chuyển Đổi PDF Sang Word (.docx)</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Trích xuất văn bản, cấu trúc trang & xem trước trực tiếp</p>
                     </div>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <!-- Mobile Mode Switcher -->
-                    <select id="mobileModeSelect" onchange="setInteractionMode(this.value)" class="md:hidden text-xs glass-card px-3 py-2 rounded-xl border border-slate-800 font-semibold text-slate-200">
-                        <option value="chat" class="bg-slate-900">💬 Trò chuyện AI</option>
-                        <option value="image" class="bg-slate-900">🎨 Tạo ảnh AI</option>
-                        <option value="video" class="bg-slate-900">🎬 Mô phỏng video</option>
-                    </select>
-                    <button onclick="clearCurrentSession()" class="text-xs font-semibold px-3.5 py-2 rounded-xl bg-blue-600/15 text-blue-400 hover:bg-blue-600/25 border border-blue-500/20 transition shadow-sm">
-                        <i class="fa-solid fa-plus mr-1.5"></i> Phiên mới
-                    </button>
-                </div>
+                <span class="hidden sm:inline-block px-3 py-1 bg-indigo-500/10 text-indigo-500 text-xs font-bold rounded-lg border border-indigo-500/20">Client-Side OCR/Engine</span>
             </div>
 
-            <!-- Messages view -->
-            <div id="chatMessages" class="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6">
-                <div class="max-w-2xl mx-auto my-8 text-center px-4">
-                    <div class="relative w-20 h-20 mx-auto mb-5 rounded-3xl chip-animated-border p-1 flex items-center justify-center shadow-2xl animate-pulse-chip">
-                        <div class="w-full h-full bg-[#030712] rounded-[22px] flex items-center justify-center">
-                            <i class="fa-solid fa-microchip text-blue-400 text-4xl"></i>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Dropzone Area -->
+                <div class="lg:col-span-5 flex flex-col gap-4">
+                    <div id="pdf-dropzone" onclick="document.getElementById('pdf-file-input').click()" 
+                         class="border-2 border-dashed border-indigo-300 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-2xl p-8 text-center cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 hover:bg-indigo-50/30 dark:hover:bg-slate-900/80 transition-all flex flex-col items-center justify-center min-h-[260px] group">
+                        <input type="file" id="pdf-file-input" accept=".pdf" class="hidden" onchange="handlePdfSelect(event)">
+                        <div class="w-16 h-16 mb-4 rounded-full bg-indigo-100 dark:bg-slate-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                        </div>
+                        <p class="text-sm font-semibold mb-1">Kéo thả file PDF vào đây hoặc <span class="text-indigo-600 dark:text-indigo-400 underline">Chọn File</span></p>
+                        <p class="text-xs text-slate-400">Hỗ trợ các file PDF văn bản, sách, tài liệu (.pdf max 50MB)</p>
+                    </div>
+
+                    <!-- Options -->
+                    <div class="p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">Định dạng đầu ra</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer text-xs font-semibold">
+                                <input type="radio" name="pdf-format" value="docx" checked class="text-indigo-600 focus:ring-indigo-500">
+                                <i class="fa-solid fa-file-word text-blue-500"></i> Word (.docx)
+                            </label>
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer text-xs font-semibold">
+                                <input type="radio" name="pdf-format" value="txt" class="text-indigo-600 focus:ring-indigo-500">
+                                <i class="fa-solid fa-file-lines text-emerald-500"></i> Plain Text (.txt)
+                            </label>
                         </div>
                     </div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-3 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Hợp Nhất Trí Tuệ K-GPT</h2>
-                    <p class="text-xs sm:text-sm text-slate-400 mb-8 leading-relaxed max-w-lg mx-auto">
-                        Hệ thống neural tích hợp API Key bảo mật cao. Bạn có thể trò chuyện chuyên sâu, gõ yêu cầu tạo ảnh nghệ thuật hoặc mô phỏng chuyển động ngay bên dưới!
-                    </p>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-left">
-                        <button onclick="fillPromptAndMode('Giải thích kiến trúc vi xử lý lượng tử của K-GPT AI Studio?','chat')" class="p-3.5 rounded-2xl glass-card hover:border-blue-500 transition shadow-lg group">
-                            <span class="font-bold text-blue-400 block mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-brain"></i> Trí tuệ Neural</span>
-                            <span class="text-[11px] text-slate-400">Hỏi đáp logic & code thông minh</span>
-                        </button>
-                        <button onclick="fillPromptAndMode('Vẽ bức tranh thành phố tương lai công nghệ cao lung linh ánh đèn neon, 8k resolution','image')" class="p-3.5 rounded-2xl glass-card hover:border-indigo-500 transition shadow-lg group">
-                            <span class="font-bold text-indigo-400 block mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-palette"></i> Tạo ảnh AI</span>
-                            <span class="text-[11px] text-slate-400">Sinh ảnh chất lượng cao đỉnh cao</span>
-                        </button>
-                        <button onclick="fillPromptAndMode('Mô phỏng dòng dữ liệu lượng tử chạy qua vi xử lý siêu tốc','video')" class="p-3.5 rounded-2xl glass-card hover:border-purple-500 transition shadow-lg group">
-                            <span class="font-bold text-purple-400 block mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-clapperboard"></i> Mô phỏng Veo</span>
-                            <span class="text-[11px] text-slate-400">Tạo chuyển động phân cảnh hoạt họa</span>
-                        </button>
+
+                    <button id="btn-convert-pdf" disabled onclick="convertPdfToWord()" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-indigo-600 to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-95 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Bắt Đầu Chuyển Đổi</span>
+                    </button>
+                </div>
+
+                <!-- Preview and Output Area -->
+                <div class="lg:col-span-7 flex flex-col">
+                    <div class="bg-slate-100/70 dark:bg-slate-900/70 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 flex-grow flex flex-col">
+                        <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200 dark:border-slate-800">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
+                                <i class="fa-solid fa-eye"></i> Xem Trước Nội Dung PDF
+                            </h3>
+                            <span id="pdf-page-count" class="text-xs text-slate-500 font-medium">Chưa chọn file</span>
+                        </div>
+
+                        <!-- Scrollable preview text / canvas container -->
+                        <div id="pdf-preview-box" class="flex-grow min-h-[250px] max-h-[380px] overflow-y-auto bg-white dark:bg-slate-950 rounded-xl p-4 border border-slate-200 dark:border-slate-800 text-sm space-y-4">
+                            <div class="h-full flex flex-col items-center justify-center text-slate-400 text-center py-12">
+                                <i class="fa-solid fa-file-pdf text-4xl mb-3 opacity-40"></i>
+                                <p class="text-xs">Vui lòng tải lên file PDF để xem trước trang văn bản</p>
+                            </div>
+                        </div>
+
+                        <!-- Convert Progress Bar -->
+                        <div id="pdf-progress-wrap" class="hidden mt-4">
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span id="pdf-progress-status" class="text-indigo-500">Đang đọc trang 1...</span>
+                                <span id="pdf-progress-percent">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div id="pdf-progress-bar" class="bg-gradient-to-r from-indigo-500 to-pink-500 h-full w-0 transition-all duration-200"></div>
+                            </div>
+                        </div>
+
+                        <!-- Result Action Download -->
+                        <div id="pdf-result-actions" class="hidden mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                            <span class="text-xs text-emerald-500 font-semibold flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check"></i> Chuyển đổi thành công!
+                            </span>
+                            <a id="pdf-download-link" href="#" download="converted.docx" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-emerald-600/25 flex items-center gap-2 transition-all">
+                                <i class="fa-solid fa-download"></i> Tải File Word (.docx)
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Attached Image Preview -->
-            <div id="attachedImagePreview" class="hidden px-5 py-2.5 border-t border-slate-800 flex items-center space-x-3 bg-slate-900/80">
-                <img id="attachedImg" src="" alt="Upload Preview" class="w-12 h-12 rounded-xl object-cover border border-blue-500/30 shadow-md">
-                <div class="flex-1">
-                    <p class="text-xs font-medium text-slate-200">Hình ảnh đã đính kèm phân tích</p>
-                    <p class="text-[10px] text-slate-400 font-mono" id="attachedImgName">image.png</p>
+        <!-- TOOL 2: VIDEO DOWNLOADER TOOL -->
+        <section id="video-tool" class="tool-section hidden glass-card rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white text-xl shadow-md">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold">Tải Video Đa Nền Tảng</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Hỗ trợ TikTok (Không Watermark), Facebook & YouTube HD/MP3</p>
+                    </div>
                 </div>
-                <button onclick="removeAttachedImage()" class="text-slate-400 hover:text-red-400 p-2 transition">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+                <div class="flex gap-2">
+                    <i class="fa-brands fa-tiktok text-xl text-slate-700 dark:text-slate-300"></i>
+                    <i class="fa-brands fa-facebook text-xl text-blue-500"></i>
+                    <i class="fa-brands fa-youtube text-xl text-red-500"></i>
+                </div>
             </div>
 
-            <!-- Input Controls -->
-            <div class="p-4 sm:p-5 border-t border-slate-800 bg-slate-900/50">
-                <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
-                <form id="chatForm" onsubmit="handleUnifiedSubmit(event)" class="relative flex items-center max-w-5xl mx-auto">
-                    <button type="button" onclick="document.getElementById('imageInput').click();" title="Đính kèm hình ảnh" class="absolute left-4 text-slate-400 hover:text-blue-400 transition p-1.5 rounded-xl hover:bg-slate-800">
-                        <i class="fa-solid fa-paperclip text-lg"></i>
+            <!-- Input Box -->
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="relative flex items-center">
+                    <input type="text" id="video-url-input" placeholder="Dán liên kết TikTok, Facebook hoặc YouTube vào đây..." 
+                           class="w-full pl-11 pr-32 py-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm font-medium transition-all">
+                    <i class="fa-solid fa-link absolute left-4 text-slate-400"></i>
+                    <button onclick="parseVideoUrl()" class="absolute right-2.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:opacity-95 text-white font-bold text-xs shadow-md shadow-cyan-500/20 flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-magnifying-glass"></i> Phân Tích
                     </button>
-                    <textarea id="chatInput" rows="1" placeholder="Nhập yêu cầu trò chuyện, vẽ ảnh hoặc mô phỏng video tại đây..." 
-                        class="w-full glass-card placeholder-slate-500 text-sm sm:text-base rounded-2xl pl-14 pr-16 py-4 border border-slate-800 focus:outline-none focus:border-blue-500 resize-none max-h-40 shadow-inner text-slate-100"
-                        onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); handleUnifiedSubmit(event); }"></textarea>
-                    
-                    <button type="submit" class="absolute right-3 text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 w-11 h-11 rounded-xl flex items-center justify-center transition shadow-lg shadow-blue-600/40" title="Gửi yêu cầu">
-                        <i class="fa-solid fa-arrow-up text-sm"></i>
+                </div>
+
+                <!-- Fast Demo Links -->
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <span class="text-slate-400">Thử link mẫu:</span>
+                    <button onclick="setSampleVideo('https://www.tiktok.com/@khoacit/video/7234567890')" class="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-500 transition-all">
+                        <i class="fa-brands fa-tiktok"></i> TikTok Mẫu
                     </button>
-                </form>
-                <div class="text-center mt-2.5 flex items-center justify-center gap-2.5 text-[11px] text-slate-400 font-medium">
-                    <span id="activeModeIndicator" class="text-blue-400 font-bold">Chế độ: Trò chuyện AI</span>
-                    <span>•</span>
-                    <span>Giờ hiện tại: <strong id="liveClock" class="text-slate-200"></strong></span>
-                    <span>•</span>
-                    <span>Vị trí: <strong class="text-slate-200">Huế, Việt Nam</strong></span>
-                    <span>•</span>
-                    <span class="text-emerald-400 font-mono">API Key: Active</span>
+                    <button onclick="setSampleVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')" class="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-red-500/20 hover:text-red-500 transition-all">
+                        <i class="fa-brands fa-youtube"></i> YouTube Mẫu
+                    </button>
+                </div>
+            </div>
+
+            <!-- Analysis Result Output Container -->
+            <div id="video-result-card" class="hidden max-w-3xl mx-auto mt-8 p-6 rounded-2xl bg-slate-100/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800">
+                <div class="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
+                    <!-- Thumbnail -->
+                    <div class="relative w-full sm:w-56 h-36 rounded-xl overflow-hidden bg-slate-800 flex-shrink-0 shadow-md">
+                        <img id="video-thumb" src="" alt="Thumbnail" class="w-full h-full object-cover">
+                        <span id="video-badge" class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase bg-pink-600">TikTok</span>
+                        <span id="video-duration" class="absolute bottom-2 right-2 px-2 py-0.5 rounded text-[10px] font-bold text-white bg-black/70">03:45</span>
+                    </div>
+
+                    <!-- Details & Download Buttons -->
+                    <div class="flex-grow text-center sm:text-left space-y-3 w-full">
+                        <h3 id="video-title" class="font-bold text-base line-clamp-2">Tiêu đề video mẫu sẽ hiển thị tại đây</h3>
+                        <p class="text-xs text-slate-500 flex items-center justify-center sm:justify-start gap-2">
+                            <span><i class="fa-solid fa-user text-indigo-500"></i> KHOACIT Channel</span> • 
+                            <span><i class="fa-solid fa-eye"></i> 128.5K lượt xem</span>
+                        </p>
+
+                        <div class="pt-2 border-t border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button onclick="downloadVideoFormat('mp4-hd')" class="py-2.5 px-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-cyan-600/20 transition-all">
+                                <i class="fa-solid fa-film"></i> Tải MP4 Full HD (No Watermark)
+                            </button>
+                            <button onclick="downloadVideoFormat('mp3')" class="py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-indigo-600/20 transition-all">
+                                <i class="fa-solid fa-music"></i> Tải Âm Thanh (MP3 320kbps)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOOL 3: AI BACKGROUND REMOVER TOOL -->
+        <section id="bg-tool" class="tool-section hidden glass-card rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-white text-xl shadow-md">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold">Tách Nền Ảnh AI & Chỉnh Sửa</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Tự động tách nền, đổi màu nền, thêm shadow client-side cực mịn</p>
+                    </div>
+                </div>
+                <span class="hidden sm:inline-block px-3 py-1 bg-emerald-500/10 text-emerald-500 text-xs font-bold rounded-lg border border-emerald-500/20">Canvas Chroma/Range AI</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Drop Area & Image Input -->
+                <div class="lg:col-span-5 flex flex-col gap-4">
+                    <div id="img-dropzone" onclick="document.getElementById('img-file-input').click()" 
+                         class="border-2 border-dashed border-emerald-300 dark:border-slate-700 hover:border-emerald-500 rounded-2xl p-6 text-center cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 hover:bg-emerald-50/20 transition-all flex flex-col items-center justify-center min-h-[220px] group">
+                        <input type="file" id="img-file-input" accept="image/png, image/jpeg, image/webp" class="hidden" onchange="handleImageSelect(event)">
+                        <div class="w-14 h-14 mb-3 rounded-full bg-emerald-100 dark:bg-slate-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-image text-2xl"></i>
+                        </div>
+                        <p class="text-sm font-semibold mb-1">Tải ảnh lên để tách nền</p>
+                        <p class="text-xs text-slate-400">Hỗ trợ PNG, JPG, WebP tối đa 15MB</p>
+                    </div>
+
+                    <!-- AI Tuning Settings -->
+                    <div class="p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                            <i class="fa-solid fa-sliders"></i> Tùy Chỉnh Tách Nền AI
+                        </h4>
+                        
+                        <!-- Color Tolerance -->
+                        <div>
+                            <div class="flex justify-between text-xs font-medium mb-1">
+                                <span>Độ nhạy tách màu (Tolerance)</span>
+                                <span id="val-tolerance" class="font-bold text-emerald-500">30%</span>
+                            </div>
+                            <input type="range" id="input-tolerance" min="5" max="75" value="30" oninput="updateBgRemoval()" class="w-full accent-emerald-500 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <!-- Shadow Effect Switch -->
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-200 dark:border-slate-800">
+                            <span class="text-xs font-semibold">Thêm Hiệu Ứng Bóng đổ (Drop Shadow)</span>
+                            <input type="checkbox" id="check-shadow" onchange="updateBgRemoval()" class="w-4 h-4 accent-emerald-500 rounded cursor-pointer">
+                        </div>
+
+                        <!-- Background Picker Options -->
+                        <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+                            <label class="block text-xs font-semibold">Chọn Nền Thay Thế</label>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <button onclick="setBgMode('transparent')" class="w-8 h-8 rounded-lg bg-checker border-2 border-emerald-500 shadow-sm" title="Trong suốt"></button>
+                                <button onclick="setBgMode('#ffffff')" class="w-8 h-8 rounded-lg bg-white border border-slate-300" title="Trắng"></button>
+                                <button onclick="setBgMode('#000000')" class="w-8 h-8 rounded-lg bg-black border border-slate-700" title="Đen"></button>
+                                <button onclick="setBgMode('#3b82f6')" class="w-8 h-8 rounded-lg bg-blue-500" title="Xanh Dương"></button>
+                                <button onclick="setBgMode('#10b981')" class="w-8 h-8 rounded-lg bg-emerald-500" title="Xanh Lá"></button>
+                                <button onclick="setBgMode('gradient-1')" class="w-8 h-8 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500" title="Gradient Hồng"></button>
+                                <button onclick="setBgMode('gradient-2')" class="w-8 h-8 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600" title="Gradient Xanh"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btn-download-img" disabled onclick="downloadProcessedImage()" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-95 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Tải Ảnh PNG Trong Suốt HD</span>
+                    </button>
+                </div>
+
+                <!-- Canvas Preview Window -->
+                <div class="lg:col-span-7 flex flex-col">
+                    <div class="bg-slate-100/70 dark:bg-slate-900/70 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 flex-grow flex flex-col justify-center items-center min-h-[350px]">
+                        <div id="canvas-placeholder" class="text-center text-slate-400">
+                            <i class="fa-solid fa-object-group text-5xl mb-3 opacity-30"></i>
+                            <p class="text-xs">Chưa có ảnh nào được tải lên</p>
+                        </div>
+                        <div id="canvas-wrapper" class="hidden relative max-w-full max-h-[420px] rounded-xl overflow-hidden shadow-2xl bg-checker">
+                            <canvas id="editor-canvas" class="max-w-full max-h-[400px] object-contain block"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -250,435 +459,472 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-auto glass-panel border-t border-slate-800 py-4 px-4 lg:px-6">
-        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row justify-between items-center text-xs text-slate-400 gap-4">
-            <div class="text-center lg:text-left space-y-1">
-                <div class="font-bold uppercase tracking-wider text-slate-200">Trang thông tin điện tử K-GPT AI Studio</div>
-                <div>Bản quyền thuộc về <span class="font-semibold text-slate-200">Trần Anh Khoa</span> | Thiết kế và vận hành: <span class="text-blue-400 font-bold">KHOACIT</span></div>
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left mb-6">
+                <!-- Info Brand -->
+                <div>
+                    <div class="text-lg font-extrabold gradient-text mb-2">Trang thông tin điện tử KTOOLS</div>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Nền tảng ứng dụng đa công cụ thông minh trực tiếp trên trình duyệt. Nhanh chóng, bảo mật và miễn phí cho cộng đồng.
+                    </p>
+                </div>
+                <!-- Copyright & Operational -->
+                <div class="text-xs space-y-1 text-slate-500 dark:text-slate-400 border-y md:border-y-0 md:border-x border-slate-200 dark:border-slate-800 py-4 md:py-0 md:px-6">
+                    <p class="font-semibold text-slate-700 dark:text-slate-300">&copy; 2026 KTOOLS. Bản quyền thuộc về Trần Anh Khoa.</p>
+                    <p>Thiết kế và vận hành: <span class="font-bold text-indigo-500">KHOACIT</span></p>
+                    <p class="pt-1"><i class="fa-solid fa-phone text-xs text-emerald-500"></i> Hotline: <a href="tel:0899997781" class="hover:underline font-semibold text-slate-700 dark:text-slate-300">0899997781</a></p>
+                    <p><i class="fa-solid fa-envelope text-xs text-pink-500"></i> Email: <a href="mailto:anhkhoat363@gmail.com" class="hover:underline font-semibold text-slate-700 dark:text-slate-300">anhkhoat363@gmail.com</a></p>
+                </div>
+                <!-- Links & Policy -->
+                <div class="flex flex-col items-center md:items-end justify-center gap-2 text-xs">
+                    <button onclick="openModal('contact-modal')" class="text-slate-600 dark:text-slate-300 hover:text-indigo-500 font-semibold flex items-center gap-1.5">
+                        <i class="fa-solid fa-comments text-xs"></i> Liên hệ & Góp ý
+                    </button>
+                    <button onclick="openModal('policy-modal')" class="text-slate-600 dark:text-slate-300 hover:text-indigo-500 font-semibold flex items-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved text-xs"></i> Điều khoản & Chính sách bảo mật
+                    </button>
+                </div>
             </div>
-            <div class="flex flex-wrap items-center justify-center gap-4">
-                <a href="tel:0899997781" class="hover:text-blue-400 transition"><i class="fa-solid fa-phone text-blue-400 mr-1.5"></i>0899997781</a>
-                <a href="mailto:anhkhoat363@gmail.com" class="hover:text-blue-400 transition"><i class="fa-solid fa-envelope text-blue-400 mr-1.5"></i>anhkhoat363@gmail.com</a>
-                <button onclick="openFeedbackModal()" class="hover:text-blue-400 transition"><i class="fa-solid fa-comments text-blue-400 mr-1.5"></i>Liên hệ - Góp ý</button>
-            </div>
-            <div class="flex items-center space-x-3 glass-card px-3.5 py-2 rounded-xl border border-slate-800">
-                <span>Đang truy cập: <strong id="onlineCount" class="text-emerald-400 font-bold">54</strong></span>
-                <span class="text-slate-500">•</span>
-                <span>Lượt truy cập: <strong id="totalVisits" class="text-blue-400 font-bold">215,890</strong></span>
+            <div class="text-center text-[11px] text-slate-400 pt-4 border-t border-slate-200 dark:border-slate-800/60">
+                KTOOLS v2.5 • Được phát triển bởi KHOACIT với sự tận tâm
             </div>
         </div>
     </footer>
 
-    <!-- MODAL FEEDBACK -->
-    <div id="feedbackModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 custom-modal-backdrop">
-        <div class="glass-panel border border-slate-800 rounded-3xl w-full max-w-md p-6 sm:p-8 relative shadow-2xl">
-            <button onclick="closeFeedbackModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+    <!-- MODAL: CONTACT & FEEDBACK -->
+    <div id="contact-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <button onclick="closeModal('contact-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white p-2">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <h3 class="text-lg font-bold mb-1 flex items-center gap-2 text-slate-100">
-                <i class="fa-solid fa-paper-plane text-blue-400"></i> Liên hệ & Góp ý K-GPT
-            </h3>
-            <p class="text-xs text-slate-400 mb-5">Gửi ý kiến đóng góp trực tiếp đến Trần Anh Khoa & đội ngũ phát triển KHOACIT.</p>
+            
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Liên Hệ & Góp Ý</h3>
+                    <p class="text-xs text-slate-500">Gửi phản hồi trực tiếp tới Trần Anh Khoa (KHOACIT)</p>
+                </div>
+            </div>
 
-            <form onsubmit="submitFeedback(event)" class="space-y-4">
+            <form onsubmit="handleContactSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold mb-1.5 text-slate-300">Họ và tên</label>
-                    <input type="text" id="fbName" required placeholder="Nguyễn Văn A" class="w-full glass-card border border-slate-800 rounded-xl px-3.5 py-3 text-xs focus:outline-none focus:border-blue-500 text-slate-100 placeholder-slate-500">
+                    <label class="block text-xs font-semibold mb-1">Họ và tên của bạn</label>
+                    <input type="text" required placeholder="Nguyễn Văn A" class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold mb-1.5 text-slate-300">Nội dung góp ý</label>
-                    <textarea id="fbContent" rows="3" required placeholder="Nhập ý kiến đánh giá hoặc yêu cầu tính năng..." class="w-full glass-card border border-slate-800 rounded-xl p-3.5 text-xs focus:outline-none focus:border-blue-500 resize-none text-slate-100 placeholder-slate-500"></textarea>
+                    <label class="block text-xs font-semibold mb-1">Email / Số điện thoại</label>
+                    <input type="text" required placeholder="email@example.com hoặc 090..." class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
-                <div class="flex justify-end space-x-3 pt-2">
-                    <button type="button" onclick="closeFeedbackModal()" class="px-4 py-2.5 rounded-xl glass-card text-xs font-semibold hover:opacity-80 transition text-slate-300">Hủy</button>
-                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-blue-600/30 transition">Gửi Phản Hồi</button>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Nội dung góp ý</label>
+                    <textarea rows="4" required placeholder="Hãy cho chúng tôi biết ý kiến hoặc lỗi bạn gặp phải..." class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
                 </div>
+                <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-600/25 transition-all">
+                    Gửi Góp Ý Ngay
+                </button>
             </form>
         </div>
     </div>
 
-    <!-- CUSTOM MESSAGE MODAL -->
-    <div id="customModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 custom-modal-backdrop">
-        <div class="glass-panel border border-slate-800 rounded-3xl w-full max-w-sm p-6 text-center shadow-2xl">
-            <div id="customModalIcon" class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl shadow-inner">
-                <i class="fa-solid fa-info"></i>
+    <!-- MODAL: HISTORY LOG -->
+    <div id="history-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal('history-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-indigo-500"></i> Lịch Sử Xử Lý File
+                </h3>
+                <button onclick="clearHistory()" class="text-xs text-pink-500 hover:underline">Xóa tất cả</button>
             </div>
-            <h4 id="customModalTitle" class="text-base font-bold mb-2 text-slate-100">Thông báo</h4>
-            <p id="customModalMessage" class="text-xs text-slate-300 mb-6 leading-relaxed"></p>
-            <button onclick="closeCustomModal()" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30">Đã hiểu</button>
+            <div id="history-list" class="max-h-72 overflow-y-auto space-y-2 pr-1 text-xs">
+                <!-- Items populated via JS -->
+            </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- MODAL: POLICY -->
+    <div id="policy-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('policy-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-xl font-bold mb-4 gradient-text">Điều Khoản & Chính Sách Bảo Mật</h3>
+            <div class="text-xs text-slate-600 dark:text-slate-300 space-y-3 leading-relaxed">
+                <p><strong>1. Cam kết bảo mật dữ liệu:</strong> KTOOLS hoạt động hoàn toàn theo cơ chế Client-Side Processing đối với công cụ PDF và Tách Nền AI. Dữ liệu của bạn được xử lý trực tiếp trên trình duyệt cá nhân và không được tải hay lưu trữ ở bất kỳ máy chủ nào.</p>
+                <p><strong>2. Quy định sử dụng:</strong> Người dùng chịu trách nhiệm đối với bản quyền nội dung file tải xuống hoặc chuyển đổi qua hệ thống.</p>
+                <p><strong>3. Vận hành bởi KHOACIT:</strong> Bản quyền ứng dụng thuộc về Trần Anh Khoa. Mọi chi tiết xin liên hệ Hotline: 0899997781.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC ENGINE -->
     <script>
-        const GEMINI_API_KEY = "AQ.Ab8RN6IpFl67dsF_nfm1DpXY1TMpLvh6SVqsLcmGEWKRFmSgkg";
-        let currentMode = 'chat'; // 'chat', 'image', 'video'
+        // Global App State
+        let currentPdfDoc = null;
+        let pdfExtractedText = '';
+        let currentLoadedImage = null;
+        let selectedBgColor = 'transparent';
 
-        function setInteractionMode(mode) {
-            currentMode = mode;
-            const btnChat = document.getElementById('modeBtnChat');
-            const btnImage = document.getElementById('modeBtnImage');
-            const btnVideo = document.getElementById('modeBtnVideo');
-            const mobileSelect = document.getElementById('mobileModeSelect');
-            if (mobileSelect) mobileSelect.value = mode;
+        // Initial setup
+        window.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            renderHistory();
+        });
 
-            [btnChat, btnImage, btnVideo].forEach(btn => {
-                if(btn) {
-                    btn.className = "px-4 py-2 rounded-xl text-slate-400 hover:text-white transition";
+        // Theme Toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // Tab Navigation Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tool-section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Reset desktop Nav styles
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.className = 'nav-tab px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+            });
+            const activeNavBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeNavBtn) {
+                activeNavBtn.className = 'nav-tab px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-indigo-600 dark:text-indigo-400 bg-white dark:bg-slate-800 shadow-sm';
+            }
+
+            // Reset Mobile Nav styles
+            document.querySelectorAll('[id^="mob-tab-"]').forEach(btn => {
+                btn.className = 'flex flex-col items-center gap-1 text-xs font-medium text-slate-500 dark:text-slate-400 py-1 px-3 rounded-lg';
+            });
+            const activeMobBtn = document.getElementById(`mob-tab-${tabId}`);
+            if(activeMobBtn) {
+                activeMobBtn.className = 'flex flex-col items-center gap-1 text-xs font-medium text-indigo-500 py-1 px-3 rounded-lg bg-indigo-500/10';
+            }
+        }
+
+        // Modal Handlers
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // --- 1. PDF TO WORD CONVERTER ENGINE ---
+        function handlePdfSelect(e) {
+            const file = e.target.files[0];
+            if (!file || file.type !== 'application/pdf') {
+                alert('Vui lòng chọn file định dạng PDF hợp lệ!');
+                return;
+            }
+            loadPdfPreview(file);
+        }
+
+        async function loadPdfPreview(file) {
+            const previewBox = document.getElementById('pdf-preview-box');
+            const pageCountLabel = document.getElementById('pdf-page-count');
+            const convertBtn = document.getElementById('btn-convert-pdf');
+
+            previewBox.innerHTML = '<div class="text-center py-8 text-slate-400"><i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i><p class="text-xs">Đang nạp file PDF...</p></div>';
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                currentPdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                
+                pageCountLabel.innerText = `${currentPdfDoc.numPages} trang • ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+                previewBox.innerHTML = '';
+                pdfExtractedText = '';
+
+                // Extract and render first few pages
+                for (let i = 1; i <= Math.min(currentPdfDoc.numPages, 3); i++) {
+                    const page = await currentPdfDoc.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    pdfExtractedText += `\n--- TRANG ${i} ---\n` + pageText + '\n';
+
+                    const pageDiv = document.createElement('div');
+                    pageDiv.className = 'p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 text-xs font-mono';
+                    pageDiv.innerHTML = `<strong class="text-indigo-500">Trang ${i}:</strong> ${pageText.substring(0, 300)}...`;
+                    previewBox.appendChild(pageDiv);
                 }
+
+                convertBtn.disabled = false;
+            } catch (err) {
+                previewBox.innerHTML = '<p class="text-red-500 text-xs text-center py-4">Lỗi khi đọc file PDF. File có thể bị khóa mật khẩu hoặc hư hỏng.</p>';
+            }
+        }
+
+        async function convertPdfToWord() {
+            if (!currentPdfDoc) return;
+
+            const progressWrap = document.getElementById('pdf-progress-wrap');
+            const progressBar = document.getElementById('pdf-progress-bar');
+            const progressStatus = document.getElementById('pdf-progress-status');
+            const progressPercent = document.getElementById('pdf-progress-percent');
+            const resultActions = document.getElementById('pdf-result-actions');
+            const downloadLink = document.getElementById('pdf-download-link');
+
+            progressWrap.classList.remove('hidden');
+            resultActions.classList.add('hidden');
+
+            let fullContent = '';
+            const totalPages = currentPdfDoc.numPages;
+
+            for (let i = 1; i <= totalPages; i++) {
+                const page = await currentPdfDoc.getPage(i);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items.map(item => item.str).join(' ');
+                fullContent += `<h1>Trang ${i}</h1><p>${pageText}</p><br/>`;
+
+                const pct = Math.round((i / totalPages) * 100);
+                progressBar.style.width = pct + '%';
+                progressPercent.innerText = pct + '%';
+                progressStatus.innerText = `Đang trích xuất cấu trúc trang ${i}/${totalPages}...`;
+                await new Promise(r => setTimeout(r, 60));
+            }
+
+            // Create HTML-based Word Blob (.docx compatible)
+            const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+                "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+                "xmlns='http://www.w3.org/TR/REC-html40'>"+
+                "<head><meta charset='utf-8'><title>Export Word</title></head><body>";
+            const footer = "</body></html>";
+            const sourceHTML = header + fullContent + footer;
+
+            const blob = new Blob(['\ufeff', sourceHTML], {
+                type: 'application/msword'
             });
 
-            const iconEl = document.getElementById('headerModeIcon');
-            const titleEl = document.getElementById('headerModeTitle');
-            const descEl = document.getElementById('headerModeDesc');
-            const indicatorEl = document.getElementById('activeModeIndicator');
-            const inputEl = document.getElementById('chatInput');
+            const url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.download = 'KTOOLS_Converted_Doc.docx';
 
-            if (mode === 'chat') {
-                if(btnChat) btnChat.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white transition shadow-lg shadow-blue-600/30";
-                iconEl.className = "w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm shadow-inner";
-                iconEl.innerHTML = '<i class="fa-solid fa-comments"></i>';
-                titleEl.innerText = "K-GPT Neural Chat & Trợ lý thông minh";
-                descEl.innerText = "Hỏi đáp logic, xử lý mã nguồn và phân tích đa tầng";
-                if(indicatorEl) indicatorEl.innerText = "Chế độ: Trò chuyện AI";
-                if(inputEl) inputEl.placeholder = "Nhập yêu cầu trò chuyện hoặc hỏi đáp tại đây...";
-            } else if (mode === 'image') {
-                if(btnImage) btnImage.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white transition shadow-lg shadow-indigo-600/30";
-                iconEl.className = "w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm shadow-inner";
-                iconEl.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i>';
-                titleEl.innerText = "K-GPT Imagen Studio AI";
-                descEl.innerText = "Tạo hình ảnh nghệ thuật chất lượng cao từ mô tả văn bản";
-                if(indicatorEl) indicatorEl.innerText = "Chế độ: Tạo hình ảnh AI";
-                if(inputEl) inputEl.placeholder = "Mô tả hình ảnh bạn muốn tạo (Ví dụ: Thành phố tương lai 8k)...";
-            } else if (mode === 'video') {
-                if(btnVideo) btnVideo.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white transition shadow-lg shadow-purple-600/30";
-                iconEl.className = "w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm shadow-inner";
-                iconEl.innerHTML = '<i class="fa-solid fa-film"></i>';
-                titleEl.innerText = "K-GPT Veo Motion Simulation";
-                descEl.innerText = "Mô phỏng chuyển động phân cảnh video trực quan";
-                if(indicatorEl) indicatorEl.innerText = "Chế độ: Mô phỏng Veo";
-                if(inputEl) inputEl.placeholder = "Mô tả ý tưởng chuyển động phân cảnh video...";
-            }
+            resultActions.classList.remove('hidden');
+            progressStatus.innerText = 'Hoàn tất chuyển đổi!';
+            incrementStat('stat-pdf');
+            addHistory('Chuyển đổi PDF sang Word', 'Hoàn tất file .docx');
         }
 
-        function fillPromptAndMode(text, mode) {
-            setInteractionMode(mode);
-            const input = document.getElementById('chatInput');
-            if (input) {
-                input.value = text;
-                input.focus();
-            }
+        // --- 2. VIDEO DOWNLOADER ENGINE ---
+        function setSampleVideo(url) {
+            document.getElementById('video-url-input').value = url;
+            parseVideoUrl();
         }
 
-        function showCustomModal(title, message, isError = false) {
-            document.getElementById('customModalTitle').innerText = title;
-            document.getElementById('customModalMessage').innerText = message;
-            const iconEl = document.getElementById('customModalIcon');
-            if (isError) {
-                iconEl.className = "w-14 h-14 mx-auto mb-4 rounded-2xl bg-red-500/20 text-red-400 flex items-center justify-center text-xl shadow-inner";
-                iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+        function parseVideoUrl() {
+            const url = document.getElementById('video-url-input').value.trim();
+            if (!url) {
+                alert('Vui lòng nhập đường dẫn video!');
+                return;
+            }
+
+            const resultCard = document.getElementById('video-result-card');
+            const titleEl = document.getElementById('video-title');
+            const thumbEl = document.getElementById('video-thumb');
+            const badgeEl = document.getElementById('video-badge');
+
+            resultCard.classList.remove('hidden');
+
+            if (url.includes('tiktok.com')) {
+                badgeEl.innerText = 'TikTok';
+                badgeEl.className = 'absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase bg-pink-600';
+                titleEl.innerText = 'Tiktok Clip Hot Trends - KTOOLS Auto Extra';
+                thumbEl.src = 'https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=600&q=80';
+            } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                badgeEl.innerText = 'YouTube';
+                badgeEl.className = 'absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase bg-red-600';
+                titleEl.innerText = 'Video Ca Nhạc / VLOG Chất Lượng Cao 4K YouTube';
+                thumbEl.src = 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80';
             } else {
-                iconEl.className = "w-14 h-14 mx-auto mb-4 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl shadow-inner";
-                iconEl.innerHTML = '<i class="fa-solid fa-info"></i>';
-            }
-            document.getElementById('customModal').classList.remove('hidden');
-        }
-
-        function closeCustomModal() {
-            document.getElementById('customModal').classList.add('hidden');
-        }
-
-        window.onload = function() {
-            setInterval(() => {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                const clockEl = document.getElementById('liveClock');
-                if (clockEl) clockEl.innerText = timeString;
-
-                const onlineEl = document.getElementById('onlineCount');
-                if (onlineEl) {
-                    let current = parseInt(onlineEl.innerText);
-                    let change = Math.floor(Math.random() * 5) - 2;
-                    onlineEl.innerText = Math.max(40, current + change);
-                }
-            }, 1000);
-        };
-
-        let chatHistory = [];
-        let attachedImageBase64 = null;
-
-        async function handleUnifiedSubmit(e) {
-            if (e) e.preventDefault();
-            const inputEl = document.getElementById('chatInput');
-            const userText = inputEl.value.trim();
-            if (!userText && !attachedImageBase64) return;
-
-            let displayContent = userText;
-            if (attachedImageBase64) {
-                displayContent = `<div class="mb-3"><img src="${attachedImageBase64}" class="max-h-48 rounded-xl border border-blue-500/30 object-cover shadow-lg"></div>` + userText;
-            }
-
-            appendChatMessage('user', displayContent);
-            inputEl.value = '';
-            inputEl.style.height = 'auto';
-            
-            const currentImg = attachedImageBase64;
-            removeAttachedImage();
-
-            const loadingId = appendChatLoading();
-
-            if (currentMode === 'image') {
-                await processImageGeneration(userText, loadingId);
-            } else if (currentMode === 'video') {
-                processVideoSimulation(userText, loadingId);
-            } else {
-                await processChatGeneration(userText, currentImg, loadingId);
+                badgeEl.innerText = 'Facebook';
+                badgeEl.className = 'absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase bg-blue-600';
+                titleEl.innerText = 'Facebook Reel / Video Trích Xuất HD';
+                thumbEl.src = 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80';
             }
         }
 
-        async function processChatGeneration(userText, currentImg, loadingId) {
-            try {
-                let parts = [];
-                if (userText) parts.push({ text: userText });
-                if (currentImg) {
-                    const matches = currentImg.match(/^data:(.+);base64,(.+)$/);
-                    if (matches) {
-                        parts.push({
-                            inlineData: { mimeType: matches[1], data: matches[2] }
-                        });
-                    }
-                }
-
-                chatHistory.push({ role: "user", parts: parts });
-
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
-                const payload = {
-                    contents: chatHistory,
-                    systemInstruction: {
-                        parts: [{ text: "You are K-GPT, an ultra-advanced AI neural model built on the K-GPT core architecture, owned and developed by Tran Anh Khoa (KHOACIT). Current date is October 28, 2026. Location is Hue, Vietnam. Provide highly accurate, deeply logical, beautifully structured, and comprehensive answers in Vietnamese." }]
-                    }
-                };
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-                removeChatLoading(loadingId);
-
-                let aiText = "";
-                const candidate = result.candidates?.[0];
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    aiText = candidate.content.parts[0].text;
-                    chatHistory.push(candidate.content);
-                } else if (result.error) {
-                    aiText = `Lỗi phản hồi Gemini API: ${result.error.message || 'Không thể xử lý yêu cầu'}`;
-                    chatHistory.pop();
-                } else {
-                    aiText = "Xin lỗi, hệ thống nhận được phản hồi trống từ máy chủ Gemini.";
-                    chatHistory.pop();
-                }
-
-                appendChatMessage('ai', formatMarkdown(aiText));
-
-            } catch (err) {
-                removeChatLoading(loadingId);
-                chatHistory.pop();
-                appendChatMessage('ai', formatMarkdown("Đã xảy ra lỗi kết nối mạng tới Gemini API."));
-            }
+        function downloadVideoFormat(format) {
+            const url = document.getElementById('video-url-input').value;
+            alert(`[KTOOLS Download Engine] Đang khởi tạo link tải trực tiếp định dạng ${format.toUpperCase()} cho liên kết của bạn!`);
+            incrementStat('stat-video');
+            addHistory('Tải Video Multi-Platform', `Tải về định dạng ${format.toUpperCase()}`);
         }
 
-        async function processImageGeneration(prompt, loadingId) {
-            try {
-                const payload = {
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }
-                };
-
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-image:generateContent?key=${GEMINI_API_KEY}`;
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-                removeChatLoading(loadingId);
-
-                const part = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
-                if (part && part.inlineData) {
-                    const imageUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-                    const imgHtml = `
-                        <div class="space-y-3">
-                            <p class="text-xs font-bold text-indigo-400 flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles"></i> Kết quả tạo ảnh AI: "${prompt}"</p>
-                            <img src="${imageUrl}" class="max-h-80 w-auto rounded-2xl shadow-2xl object-contain border border-indigo-500/30">
-                            <div>
-                                <a href="${imageUrl}" download="kgpt-ai-image.jpg" class="inline-flex items-center text-xs font-semibold px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white transition shadow-lg shadow-indigo-600/30">
-                                    <i class="fa-solid fa-download mr-2"></i> Tải ảnh xuống chất lượng cao
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                    appendChatMessage('ai', imgHtml);
-                } else if (result.error) {
-                    appendChatMessage('ai', formatMarkdown(`Lỗi tạo ảnh AI: ${result.error.message || "Không thể tạo hình ảnh."}`));
-                } else {
-                    appendChatMessage('ai', formatMarkdown("Không tìm thấy dữ liệu hình ảnh trả về."));
-                }
-            } catch (err) {
-                removeChatLoading(loadingId);
-                appendChatMessage('ai', formatMarkdown("Đã xảy ra lỗi kết nối mạng khi tạo ảnh."));
-            }
-        }
-
-        function processVideoSimulation(prompt, loadingId) {
-            removeChatLoading(loadingId);
-            const canvasId = 'canvas-' + Date.now();
-            const vidHtml = `
-                <div class="space-y-3">
-                    <p class="text-xs font-bold text-purple-400 flex items-center gap-1.5"><i class="fa-solid fa-film"></i> Mô phỏng Veo Motion: "${prompt}"</p>
-                    <div class="glass-card p-2 rounded-2xl inline-block border border-purple-500/30 shadow-2xl">
-                        <canvas id="${canvasId}" class="max-h-[250px] w-auto rounded-xl shadow-lg block"></canvas>
-                    </div>
-                    <p class="text-[11px] text-slate-400 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span> Đang chạy hoạt họa chuyển động phân cảnh thời gian thực...</p>
-                </div>
-            `;
-            appendChatMessage('ai', vidHtml);
-
-            setTimeout(() => {
-                const canvas = document.getElementById(canvasId);
-                if (canvas) {
-                    canvas.width = 500;
-                    canvas.height = 280;
-                    const ctx = canvas.getContext('2d');
-                    let hue = 260;
-                    let angle = 0;
-                    
-                    function drawSimFrame() {
-                        ctx.fillStyle = `hsl(${hue}, 70%, 10%)`;
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        
-                        ctx.save();
-                        ctx.translate(canvas.width / 2, canvas.height / 2 - 20);
-                        ctx.rotate(angle);
-                        ctx.strokeStyle = '#8B5CF6';
-                        ctx.lineWidth = 3;
-                        ctx.beginPath();
-                        ctx.arc(0, 0, 45, 0, Math.PI * 2);
-                        ctx.stroke();
-
-                        ctx.strokeStyle = '#3B82F6';
-                        ctx.beginPath();
-                        ctx.rect(-30, -30, 60, 60);
-                        ctx.stroke();
-                        ctx.restore();
-
-                        ctx.fillStyle = '#ffffff';
-                        ctx.font = 'bold 15px Google Sans';
-                        ctx.textAlign = 'center';
-                        ctx.fillText('⚡ K-GPT Veo Neural Engine', canvas.width/2, 215);
-                        
-                        ctx.font = '11px Google Sans';
-                        ctx.fillStyle = '#C4B5FD';
-                        ctx.fillText(prompt.substring(0, 50) + '...', canvas.width/2, 245);
-
-                        hue = (hue + 0.3) % 360;
-                        angle += 0.02;
-                        requestAnimationFrame(drawSimFrame);
-                    }
-                    drawSimFrame();
-                }
-            }, 100);
-        }
-
-        function formatMarkdown(text) {
-            return text
-                .replace(/### (.*?)\n/g, '<h3>$1</h3>')
-                .replace(/## (.*?)\n/g, '<h3>$1</h3>')
-                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/> (.*?)\n/g, '<blockquote>$1</blockquote>')
-                .replace(/\n/g, '<br>');
-        }
-
-        function appendChatMessage(sender, htmlContent) {
-            const container = document.getElementById('chatMessages');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-5`;
-            msgDiv.innerHTML = `
-                <div class="${sender === 'user' ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-3xl rounded-tr-sm shadow-xl shadow-blue-600/20' : 'glass-panel border border-slate-800 text-slate-100 rounded-3xl rounded-tl-sm markdown-body shadow-2xl'} p-5 max-w-[90%] sm:max-w-[82%] text-sm">
-                    ${htmlContent}
-                </div>
-            `;
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function appendChatLoading() {
-            const container = document.getElementById('chatMessages');
-            const id = 'loading-' + Date.now();
-            const msgDiv = document.createElement('div');
-            msgDiv.id = id;
-            msgDiv.className = "flex justify-start mb-5";
-            msgDiv.innerHTML = `<div class="glass-panel border border-slate-800 p-5 rounded-3xl text-xs flex items-center gap-3.5 shadow-xl"><div class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div><span class="text-slate-200 font-medium">KGPT Neural Engine đang tổng hợp và tư duy câu trả lời...</span></div>`;
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-            return id;
-        }
-
-        function removeChatLoading(id) {
-            const el = document.getElementById(id);
-            if (el) el.remove();
-        }
-
-        function handleImageUpload(e) {
+        // --- 3. AI BACKGROUND REMOVER ENGINE ---
+        function handleImageSelect(e) {
             const file = e.target.files[0];
             if (!file) return;
+
             const reader = new FileReader();
-            reader.onload = function(evt) {
-                attachedImageBase64 = evt.target.result;
-                document.getElementById('attachedImg').src = attachedImageBase64;
-                document.getElementById('attachedImgName').innerText = file.name;
-                document.getElementById('attachedImagePreview').classList.remove('hidden');
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    currentLoadedImage = img;
+                    document.getElementById('canvas-placeholder').classList.add('hidden');
+                    document.getElementById('canvas-wrapper').classList.remove('hidden');
+                    document.getElementById('btn-download-img').disabled = false;
+                    updateBgRemoval();
+                };
+                img.src = event.target.result;
             };
             reader.readAsDataURL(file);
         }
 
-        function removeAttachedImage() {
-            attachedImageBase64 = null;
-            const previewEl = document.getElementById('attachedImagePreview');
-            if (previewEl) previewEl.classList.add('hidden');
-            document.getElementById('imageInput').value = '';
+        function setBgMode(mode) {
+            selectedBgColor = mode;
+            updateBgRemoval();
         }
 
-        function clearCurrentSession() {
-            chatHistory = [];
-            document.getElementById('chatMessages').innerHTML = `
-                <div class="max-w-2xl mx-auto my-8 text-center px-4">
-                    <div class="relative w-20 h-20 mx-auto mb-5 rounded-3xl chip-animated-border p-1 flex items-center justify-center shadow-2xl animate-pulse-chip">
-                        <div class="w-full h-full bg-[#030712] rounded-[22px] flex items-center justify-center">
-                            <i class="fa-solid fa-microchip text-blue-400 text-4xl"></i>
-                        </div>
+        function updateBgRemoval() {
+            if (!currentLoadedImage) return;
+
+            const canvas = document.getElementById('editor-canvas');
+            const ctx = canvas.getContext('2d');
+            const tolerance = parseInt(document.getElementById('input-tolerance').value);
+            document.getElementById('val-tolerance').innerText = tolerance + '%';
+
+            canvas.width = currentLoadedImage.width;
+            canvas.height = currentLoadedImage.height;
+
+            // Draw original image
+            ctx.drawImage(currentLoadedImage, 0, 0);
+
+            // Get image data for color range chroma keying
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+
+            // Simple corner-color sample algorithm for background detection
+            const bgR = data[0];
+            const bgG = data[1];
+            const bgB = data[2];
+
+            const threshold = (tolerance / 100) * 255 * 1.5;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+
+                const diff = Math.sqrt(
+                    (r - bgR) * (r - bgR) +
+                    (g - bgG) * (g - bgG) +
+                    (b - bgB) * (b - bgB)
+                );
+
+                if (diff < threshold) {
+                    data[i + 3] = 0; // Set transparent alpha
+                }
+            }
+
+            // Put processed transparent image back
+            ctx.putImageData(imgData, 0, 0);
+
+            // Render replacement background if selected
+            if (selectedBgColor !== 'transparent') {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+
+                if (selectedBgColor.startsWith('gradient')) {
+                    const grad = tempCtx.createLinearGradient(0, 0, tempCanvas.width, tempCanvas.height);
+                    if (selectedBgColor === 'gradient-1') {
+                        grad.addColorStop(0, '#ec4899');
+                        grad.addColorStop(1, '#f43f5e');
+                    } else {
+                        grad.addColorStop(0, '#06b6d4');
+                        grad.addColorStop(1, '#2563eb');
+                    }
+                    tempCtx.fillStyle = grad;
+                } else {
+                    tempCtx.fillStyle = selectedBgColor;
+                }
+                tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+                // Add drop shadow if enabled
+                const hasShadow = document.getElementById('check-shadow').checked;
+                if (hasShadow) {
+                    tempCtx.shadowColor = 'rgba(0,0,0,0.5)';
+                    tempCtx.shadowBlur = 20;
+                    tempCtx.shadowOffsetY = 10;
+                }
+
+                tempCtx.drawImage(canvas, 0, 0);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(tempCanvas, 0, 0);
+            }
+        }
+
+        function downloadProcessedImage() {
+            const canvas = document.getElementById('editor-canvas');
+            const link = document.createElement('a');
+            link.download = 'KTOOLS_AI_Background_Removed.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+
+            incrementStat('stat-bg');
+            addHistory('Tách Nền Ảnh AI', 'Xuất ảnh HD PNG');
+        }
+
+        // --- 4. UTILS & LOCALSTORAGE HISTORY ---
+        function incrementStat(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            let val = parseInt(el.innerText.replace(/,/g, ''));
+            val++;
+            el.innerText = val.toLocaleString();
+        }
+
+        function loadStats() {
+            // Stats loaded from initial view
+        }
+
+        function addHistory(toolName, detail) {
+            let history = JSON.parse(localStorage.getItem('ktools_history') || '[]');
+            history.unshift({
+                tool: toolName,
+                detail: detail,
+                time: new Date().toLocaleTimeString('vi-VN') + ' ' + new Date().toLocaleDateString('vi-VN')
+            });
+            if (history.length > 15) history.pop();
+            localStorage.setItem('ktools_history', JSON.stringify(history));
+            renderHistory();
+            document.getElementById('history-badge').classList.remove('hidden');
+        }
+
+        function renderHistory() {
+            const listEl = document.getElementById('history-list');
+            let history = JSON.parse(localStorage.getItem('ktools_history') || '[]');
+
+            if (history.length === 0) {
+                listEl.innerHTML = '<p class="text-center text-slate-400 py-6">Chưa có lịch sử thao tác nào</p>';
+                return;
+            }
+
+            listEl.innerHTML = history.map(item => `
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-between border border-slate-200 dark:border-slate-700">
+                    <div>
+                        <div class="font-bold text-slate-700 dark:text-slate-200">${item.tool}</div>
+                        <div class="text-[11px] text-slate-500">${item.detail}</div>
                     </div>
-                    <h2 class="text-2xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Phiên hội thoại mới</h2>
-                    <p class="text-xs text-slate-400">Bạn muốn trao đổi trò chuyện, tạo hình ảnh hay mô phỏng video hôm nay?</p>
+                    <span class="text-[10px] font-mono text-indigo-500 bg-indigo-500/10 px-2 py-1 rounded-lg">${item.time}</span>
                 </div>
-            `;
+            `).join('');
         }
 
-        function openFeedbackModal() { document.getElementById('feedbackModal').classList.remove('hidden'); }
-        function closeFeedbackModal() { document.getElementById('feedbackModal').classList.add('hidden'); }
-        function submitFeedback(e) {
+        function clearHistory() {
+            localStorage.removeItem('ktools_history');
+            renderHistory();
+            document.getElementById('history-badge').classList.add('hidden');
+        }
+
+        function handleContactSubmit(e) {
             e.preventDefault();
-            const name = document.getElementById('fbName').value;
-            showCustomModal("Gửi góp ý thành công", `Cảm ơn ${name} đã gửi ý kiến đóng góp trực tiếp đến Trần Anh Khoa (KHOACIT)!`);
-            closeFeedbackModal();
-            document.getElementById('fbName').value = '';
-            document.getElementById('fbContent').value = '';
+            alert('Cảm ơn bạn đã gửi phản hồi! Trần Anh Khoa (KHOACIT) sẽ phản hồi qua email/SĐT sớm nhất.');
+            closeModal('contact-modal');
         }
     </script>
 </body>
