@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,26 +9,21 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         kgpt: {
-                            bgDark: '#0B0F19',
-                            cardDark: '#131C2E',
+                            bgDark: '#030712',
+                            cardDark: '#0B0F19',
                             borderDark: '#1E293B',
-                            bgLight: '#F8FAFC',
-                            cardLight: '#FFFFFF',
-                            borderLight: '#E2E8F0',
-                            primary: '#1A73E8',
-                            purple: '#8AB4F8',
-                            glow: '#4285F4',
-                            emerald: '#34A853',
-                            pink: '#EA4335',
-                            yellow: '#FBBC05'
+                            primary: '#3B82F6',
+                            purple: '#8B5CF6',
+                            emerald: '#10B981',
+                            pink: '#EC4899',
+                            yellow: '#F59E0B'
                         }
                     },
                     fontFamily: {
@@ -44,125 +39,110 @@
             font-family: 'Google Sans', sans-serif;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .dark body {
-            background-color: #0B0F19;
-            color: #E8EAED;
-        }
-        :not(.dark) body {
-            background-color: #F1F5F9;
-            color: #1E293B;
+            background-color: #030712;
+            color: #F8FAFC;
         }
 
         .glass-panel {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: background 0.3s ease, border-color 0.3s ease;
-        }
-        .dark .glass-panel {
-            background: rgba(19, 28, 46, 0.92);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        :not(.dark) .glass-panel {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            background: rgba(11, 15, 25, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 30px rgba(59, 130, 246, 0.08);
         }
 
         .glass-card {
-            backdrop-filter: blur(14px);
-            transition: background 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(16px);
+            background: rgba(17, 24, 39, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        :not(.dark) .glass-card {
-            background: rgba(248, 250, 252, 0.85);
-            border: 1px solid rgba(0, 0, 0, 0.06);
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
         }
 
         ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #1E293B;
             border-radius: 4px;
         }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #334155;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3B82F6;
         }
         
         @keyframes pulse-chip {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(26, 115, 232, 0.4); }
-            50% { transform: scale(1.04); box-shadow: 0 0 40px rgba(138, 180, 248, 0.8); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
+            50% { transform: scale(1.03); box-shadow: 0 0 60px rgba(139, 92, 246, 0.8); }
         }
         .animate-pulse-chip {
             animation: pulse-chip 3s infinite ease-in-out;
         }
+
         @keyframes chip-glow {
             0% { filter: hue-rotate(0deg); }
-            50% { filter: hue-rotate(45deg); }
+            50% { filter: hue-rotate(90deg); }
             100% { filter: hue-rotate(0deg); }
         }
         .chip-animated-border {
-            background: linear-gradient(60deg, #1A73E8, #8AB4F8, #34A853, #FBBC05, #EA4335);
+            background: linear-gradient(60deg, #3B82F6, #8B5CF6, #EC4899, #10B981, #3B82F6);
             background-size: 300% 300%;
             animation: chip-glow 6s ease infinite;
         }
 
-        .markdown-body p { margin-bottom: 0.85rem; line-height: 1.75; }
+        .markdown-body p { margin-bottom: 0.85rem; line-height: 1.8; }
         .markdown-body p:last-child { margin-bottom: 0; }
         .markdown-body ul, .markdown-body ol { margin-left: 1.5rem; margin-bottom: 0.85rem; list-style-type: disc; }
-        .dark .markdown-body code { font-family: 'Fira Code', monospace; background: rgba(15, 23, 42, 0.95); padding: 0.2rem 0.5rem; border-radius: 0.35rem; font-size: 0.85em; color: #8AB4F8; border: 1px solid rgba(138, 180, 248, 0.2); }
-        :not(.dark) .markdown-body code { font-family: 'Fira Code', monospace; background: #E2E8F0; padding: 0.2rem 0.5rem; border-radius: 0.35rem; font-size: 0.85em; color: #1A73E8; border: 1px solid rgba(26, 115, 232, 0.2); }
-        .markdown-body pre { font-family: 'Fira Code', monospace; background: #070B14; padding: 1.2rem; border-radius: 0.85rem; overflow-x: auto; margin-bottom: 1rem; border: 1px solid #1E293B; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5); }
+        .markdown-body code { font-family: 'Fira Code', monospace; background: rgba(3, 7, 18, 0.95); padding: 0.2rem 0.5rem; border-radius: 0.35rem; font-size: 0.85em; color: #93C5FD; border: 1px solid rgba(147, 197, 253, 0.2); }
+        .markdown-body pre { font-family: 'Fira Code', monospace; background: #010409; padding: 1.2rem; border-radius: 0.85rem; overflow-x: auto; margin-bottom: 1rem; border: 1px solid #1E293B; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5); }
         .markdown-body pre code { background: transparent; padding: 0; color: #E2E8F0; border: none; }
-        .markdown-body h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.2rem; margin-bottom: 0.6rem; border-bottom: 1px solid rgba(128,128,128,0.2); padding-bottom: 0.3rem; }
+        .markdown-body h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.2rem; margin-bottom: 0.6rem; border-bottom: 1px solid rgba(128,128,128,0.2); padding-bottom: 0.3rem; color: #60A5FA; }
         
         .custom-modal-backdrop {
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(12px);
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen justify-between antialiased selection:bg-blue-500 selection:text-white">
 
     <!-- Top Navigation Header -->
-    <header class="sticky top-0 z-50 glass-panel border-b px-3 sm:px-6 py-3">
-        <div class="max-w-5xl mx-auto flex items-center justify-between">
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800 px-3 sm:px-6 py-3.5">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="flex items-center space-x-2.5 cursor-pointer focus:outline-none group">
-                    <div class="relative w-10 h-10 rounded-xl chip-animated-border p-0.5 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition">
-                        <div class="w-full h-full dark:bg-[#0B0F19] bg-white rounded-[10px] flex items-center justify-center">
-                            <i class="fa-solid fa-microchip text-blue-500 text-lg"></i>
+                    <div class="relative w-11 h-11 rounded-2xl chip-animated-border p-0.5 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition">
+                        <div class="w-full h-full bg-[#030712] rounded-[14px] flex items-center justify-center">
+                            <i class="fa-solid fa-microchip text-blue-400 text-xl"></i>
                         </div>
                     </div>
                     <div class="text-left">
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-xl sm:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-sky-400 to-indigo-500 tracking-wider">K-GPT</span>
-                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-500 border border-blue-500/30 hidden sm:inline-block">Unified AI Studio</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl sm:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 tracking-wider">K-GPT</span>
+                            <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hidden sm:inline-block">Neural Engine v3.9</span>
                         </div>
+                        <p class="text-[10px] text-slate-400 font-medium tracking-wide">Developer: Trần Anh Khoa (KHOACIT)</p>
                     </div>
                 </div>
             </div>
 
             <!-- Top Right Controls -->
             <div class="flex items-center space-x-2 sm:space-x-3">
-                <!-- Mode Selector Pill -->
-                <div class="hidden md:flex items-center glass-card p-1 rounded-xl border text-xs font-semibold">
-                    <button onclick="setInteractionMode('chat')" id="modeBtnChat" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white transition shadow">💬 Trò chuyện</button>
-                    <button onclick="setInteractionMode('image')" id="modeBtnImage" class="px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-300 hover:text-blue-500 transition">🎨 Tạo ảnh</button>
-                    <button onclick="setInteractionMode('video')" id="modeBtnVideo" class="px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-300 hover:text-blue-500 transition">🎬 Mô phỏng video</button>
+                <div class="hidden md:flex items-center glass-card p-1 rounded-2xl border border-slate-800 text-xs font-semibold shadow-inner">
+                    <button onclick="setInteractionMode('chat')" id="modeBtnChat" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white transition shadow-lg shadow-blue-600/30">💬 Trò chuyện</button>
+                    <button onclick="setInteractionMode('image')" id="modeBtnImage" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition">🎨 Tạo ảnh AI</button>
+                    <button onclick="setInteractionMode('video')" id="modeBtnVideo" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition">🎬 Mô phỏng Veo</button>
                 </div>
 
-                <!-- Theme Toggle Button -->
-                <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-blue-500 transition shadow-sm" title="Chuyển đổi sáng/tối">
-                    <i id="themeIcon" class="fa-solid fa-moon text-base"></i>
-                </button>
-                <button onclick="openFeedbackModal()" class="flex items-center space-x-1.5 text-xs font-semibold px-3 py-2 rounded-xl bg-blue-600/20 text-blue-500 dark:text-blue-300 border border-blue-500/30 hover:bg-blue-600/30 transition">
+                <div class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl glass-card text-[11px] font-mono border border-slate-800 text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="hidden sm:inline">API Connected</span>
+                </div>
+
+                <button onclick="openFeedbackModal()" class="flex items-center space-x-1.5 text-xs font-semibold px-3.5 py-2.5 rounded-xl bg-blue-600/15 text-blue-400 border border-blue-500/30 hover:bg-blue-600/25 transition shadow-sm">
                     <i class="fa-solid fa-paper-plane"></i>
                     <span class="hidden sm:inline">Góp ý</span>
                 </button>
@@ -171,96 +151,98 @@
     </header>
 
     <!-- Main Content Container (Unified Dashboard) -->
-    <main class="flex-1 max-w-5xl w-full mx-auto px-2 sm:px-4 lg:px-6 py-3 sm:py-4 flex flex-col gap-4 overflow-y-auto relative">
+    <main class="flex-1 max-w-6xl w-full mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6 flex flex-col gap-4 overflow-y-auto relative">
 
         <!-- UNIFIED CHAT & MULTI-MODAL CONVERSATION SECTION -->
-        <section class="glass-panel rounded-2xl flex flex-col h-[70vh] sm:h-[72vh] shadow-2xl overflow-hidden border">
+        <section class="glass-panel rounded-3xl flex flex-col h-[72vh] sm:h-[75vh] shadow-2xl overflow-hidden border border-slate-800">
             <!-- Header bar inside panel -->
-            <div class="px-4 py-3 border-b flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50">
-                <div class="flex items-center space-x-2">
-                    <div id="headerModeIcon" class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-500 flex items-center justify-center text-xs">
+            <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+                <div class="flex items-center space-x-3">
+                    <div id="headerModeIcon" class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm shadow-inner">
                         <i class="fa-solid fa-comments"></i>
                     </div>
                     <div>
-                        <h3 id="headerModeTitle" class="font-bold text-sm sm:text-base">K-GPT Neural Chat & Multi-Modal Hub</h3>
-                        <p id="headerModeDesc" class="text-[10px] text-slate-500 dark:text-slate-400">Trò chuyện đa năng, tạo ảnh AI & mô phỏng video từ cùng một khung nhập</p>
+                        <h3 id="headerModeTitle" class="font-bold text-sm sm:text-base text-slate-100">K-GPT Neural Chat & Multi-Modal Hub</h3>
+                        <p id="headerModeDesc" class="text-[11px] text-slate-400">Trò chuyện đa năng, tạo ảnh AI & mô phỏng video từ cùng một khung nhập</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-2">
                     <!-- Mobile Mode Switcher -->
-                    <select id="mobileModeSelect" onchange="setInteractionMode(this.value)" class="md:hidden text-xs glass-card px-2 py-1.5 rounded-lg border font-semibold">
-                        <option value="chat">💬 Trò chuyện</option>
-                        <option value="image">🎨 Tạo ảnh AI</option>
-                        <option value="video">🎬 Mô phỏng video</option>
+                    <select id="mobileModeSelect" onchange="setInteractionMode(this.value)" class="md:hidden text-xs glass-card px-3 py-2 rounded-xl border border-slate-800 font-semibold text-slate-200">
+                        <option value="chat" class="bg-slate-900">💬 Trò chuyện AI</option>
+                        <option value="image" class="bg-slate-900">🎨 Tạo ảnh AI</option>
+                        <option value="video" class="bg-slate-900">🎬 Mô phỏng video</option>
                     </select>
-                    <button onclick="clearCurrentSession()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-600/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600/20 transition">
-                        <i class="fa-solid fa-plus mr-1"></i> Phiên mới
+                    <button onclick="clearCurrentSession()" class="text-xs font-semibold px-3.5 py-2 rounded-xl bg-blue-600/15 text-blue-400 hover:bg-blue-600/25 border border-blue-500/20 transition shadow-sm">
+                        <i class="fa-solid fa-plus mr-1.5"></i> Phiên mới
                     </button>
                 </div>
             </div>
 
             <!-- Messages view -->
-            <div id="chatMessages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
-                <div class="max-w-2xl mx-auto my-6 text-center px-4">
-                    <div class="relative w-16 h-16 mx-auto mb-4 rounded-2xl chip-animated-border p-1 flex items-center justify-center shadow-xl animate-pulse-chip">
-                        <div class="w-full h-full dark:bg-[#0B0F19] bg-white rounded-[14px] flex items-center justify-center">
-                            <i class="fa-solid fa-microchip text-blue-500 text-3xl"></i>
+            <div id="chatMessages" class="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6">
+                <div class="max-w-2xl mx-auto my-8 text-center px-4">
+                    <div class="relative w-20 h-20 mx-auto mb-5 rounded-3xl chip-animated-border p-1 flex items-center justify-center shadow-2xl animate-pulse-chip">
+                        <div class="w-full h-full bg-[#030712] rounded-[22px] flex items-center justify-center">
+                            <i class="fa-solid fa-microchip text-blue-400 text-4xl"></i>
                         </div>
                     </div>
-                    <h2 class="text-xl sm:text-2xl font-extrabold mb-2 tracking-tight">Hợp Nhất Thông Minh K-GPT</h2>
-                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
-                        Bạn có thể nhập câu hỏi tư duy, gõ yêu cầu <strong>"vẽ hình ảnh..."</strong> để tạo ảnh AI trực tiếp, hoặc yêu cầu <strong>"mô phỏng video..."</strong> ngay tại khung nhập bên dưới!
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-3 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Hợp Nhất Trí Tuệ K-GPT</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mb-8 leading-relaxed max-w-lg mx-auto">
+                        Hệ thống neural tích hợp API Key bảo mật cao. Bạn có thể trò chuyện chuyên sâu, gõ yêu cầu tạo ảnh nghệ thuật hoặc mô phỏng chuyển động ngay bên dưới!
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-left">
-                        <button onclick="fillPromptAndMode('Giải thích kiến trúc K-GPT AI Studio?','chat')" class="p-3 rounded-xl glass-card hover:border-blue-500 transition shadow-sm group">
-                            <span class="font-bold text-blue-500 block mb-1">🧠 Trí tuệ Neural</span>
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Hỏi đáp logic chuyên sâu</span>
+                        <button onclick="fillPromptAndMode('Giải thích kiến trúc vi xử lý lượng tử của K-GPT AI Studio?','chat')" class="p-3.5 rounded-2xl glass-card hover:border-blue-500 transition shadow-lg group">
+                            <span class="font-bold text-blue-400 block mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-brain"></i> Trí tuệ Neural</span>
+                            <span class="text-[11px] text-slate-400">Hỏi đáp logic & code thông minh</span>
                         </button>
-                        <button onclick="fillPromptAndMode('Vẽ bức tranh thành phố tương lai lung linh ánh đèn neon, 8k','image')" class="p-3 rounded-xl glass-card hover:border-sky-500 transition shadow-sm group">
-                            <span class="font-bold text-sky-500 block mb-1">🎨 Tạo ảnh AI</span>
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Sinh ảnh nghệ thuật chất lượng</span>
+                        <button onclick="fillPromptAndMode('Vẽ bức tranh thành phố tương lai công nghệ cao lung linh ánh đèn neon, 8k resolution','image')" class="p-3.5 rounded-2xl glass-card hover:border-indigo-500 transition shadow-lg group">
+                            <span class="font-bold text-indigo-400 block mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-palette"></i> Tạo ảnh AI</span>
+                            <span class="text-[11px] text-slate-400">Sinh ảnh chất lượng cao đỉnh cao</span>
                         </button>
-                        <button onclick="fillPromptAndMode('Mô phỏng dòng dữ liệu lượng tử chạy qua vi xử lý','video')" class="p-3 rounded-xl glass-card hover:border-indigo-500 transition shadow-sm group">
-                            <span class="font-bold text-indigo-500 block mb-1">🎬 Mô phỏng video</span>
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Tạo chuyển động phân cảnh</span>
+                        <button onclick="fillPromptAndMode('Mô phỏng dòng dữ liệu lượng tử chạy qua vi xử lý siêu tốc','video')" class="p-3.5 rounded-2xl glass-card hover:border-purple-500 transition shadow-lg group">
+                            <span class="font-bold text-purple-400 block mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-clapperboard"></i> Mô phỏng Veo</span>
+                            <span class="text-[11px] text-slate-400">Tạo chuyển động phân cảnh hoạt họa</span>
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- Attached Image Preview -->
-            <div id="attachedImagePreview" class="hidden px-4 py-2 border-t flex items-center space-x-3 bg-slate-100 dark:bg-slate-900">
-                <img id="attachedImg" src="" alt="Upload Preview" class="w-12 h-12 rounded-lg object-cover border">
+            <div id="attachedImagePreview" class="hidden px-5 py-2.5 border-t border-slate-800 flex items-center space-x-3 bg-slate-900/80">
+                <img id="attachedImg" src="" alt="Upload Preview" class="w-12 h-12 rounded-xl object-cover border border-blue-500/30 shadow-md">
                 <div class="flex-1">
-                    <p class="text-xs font-medium">Hình ảnh đã đính kèm</p>
-                    <p class="text-[10px] text-slate-500 font-mono" id="attachedImgName">image.png</p>
+                    <p class="text-xs font-medium text-slate-200">Hình ảnh đã đính kèm phân tích</p>
+                    <p class="text-[10px] text-slate-400 font-mono" id="attachedImgName">image.png</p>
                 </div>
-                <button onclick="removeAttachedImage()" class="text-slate-400 hover:text-red-500 p-2 transition">
-                    <i class="fa-solid fa-xmark text-base"></i>
+                <button onclick="removeAttachedImage()" class="text-slate-400 hover:text-red-400 p-2 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <!-- Input Controls -->
-            <div class="p-3 sm:p-4 border-t bg-slate-50/30 dark:bg-slate-900/30">
+            <div class="p-4 sm:p-5 border-t border-slate-800 bg-slate-900/50">
                 <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
-                <form id="chatForm" onsubmit="handleUnifiedSubmit(event)" class="relative flex items-center max-w-4xl mx-auto">
-                    <button type="button" onclick="document.getElementById('imageInput').click();" title="Đính kèm hình ảnh" class="absolute left-3.5 text-slate-400 hover:text-blue-500 transition p-1">
-                        <i class="fa-solid fa-paperclip text-base"></i>
+                <form id="chatForm" onsubmit="handleUnifiedSubmit(event)" class="relative flex items-center max-w-5xl mx-auto">
+                    <button type="button" onclick="document.getElementById('imageInput').click();" title="Đính kèm hình ảnh" class="absolute left-4 text-slate-400 hover:text-blue-400 transition p-1.5 rounded-xl hover:bg-slate-800">
+                        <i class="fa-solid fa-paperclip text-lg"></i>
                     </button>
                     <textarea id="chatInput" rows="1" placeholder="Nhập yêu cầu trò chuyện, vẽ ảnh hoặc mô phỏng video tại đây..." 
-                        class="w-full glass-card placeholder-slate-400 text-sm sm:text-base rounded-2xl pl-12 pr-14 py-3.5 border focus:outline-none focus:border-blue-500 resize-none max-h-36 shadow-inner"
+                        class="w-full glass-card placeholder-slate-500 text-sm sm:text-base rounded-2xl pl-14 pr-16 py-4 border border-slate-800 focus:outline-none focus:border-blue-500 resize-none max-h-40 shadow-inner text-slate-100"
                         onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); handleUnifiedSubmit(event); }"></textarea>
                     
-                    <button type="submit" class="absolute right-2.5 text-white bg-blue-600 hover:bg-blue-500 w-10 h-10 rounded-xl flex items-center justify-center transition shadow-lg shadow-blue-600/30" title="Gửi yêu cầu">
+                    <button type="submit" class="absolute right-3 text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 w-11 h-11 rounded-xl flex items-center justify-center transition shadow-lg shadow-blue-600/40" title="Gửi yêu cầu">
                         <i class="fa-solid fa-arrow-up text-sm"></i>
                     </button>
                 </form>
-                <div class="text-center mt-2 flex items-center justify-center gap-2 text-[10px] text-slate-500 font-medium">
-                    <span id="activeModeIndicator" class="text-blue-500 font-bold">Chế độ: Trò chuyện AI</span>
+                <div class="text-center mt-2.5 flex items-center justify-center gap-2.5 text-[11px] text-slate-400 font-medium">
+                    <span id="activeModeIndicator" class="text-blue-400 font-bold">Chế độ: Trò chuyện AI</span>
                     <span>•</span>
-                    <span>Giờ hiện tại: <strong id="liveClock" class="text-slate-600 dark:text-slate-400"></strong></span>
+                    <span>Giờ hiện tại: <strong id="liveClock" class="text-slate-200"></strong></span>
                     <span>•</span>
-                    <span>Vị trí: <strong class="text-slate-600 dark:text-slate-400">Huế, Việt Nam</strong></span>
+                    <span>Vị trí: <strong class="text-slate-200">Huế, Việt Nam</strong></span>
+                    <span>•</span>
+                    <span class="text-emerald-400 font-mono">API Key: Active</span>
                 </div>
             </div>
         </section>
@@ -268,48 +250,48 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-auto glass-panel border-t py-4 px-4 lg:px-6">
-        <div class="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between items-center text-xs text-slate-500 dark:text-slate-400 gap-4">
+    <footer class="mt-auto glass-panel border-t border-slate-800 py-4 px-4 lg:px-6">
+        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row justify-between items-center text-xs text-slate-400 gap-4">
             <div class="text-center lg:text-left space-y-1">
-                <div class="font-bold uppercase tracking-wider">Trang thông tin điện tử K-GPT</div>
-                <div>Bản quyền thuộc về <span class="font-semibold">Trần Anh Khoa</span> | Thiết kế và xây dựng: <span class="text-blue-500 font-bold">KHOACIT</span></div>
+                <div class="font-bold uppercase tracking-wider text-slate-200">Trang thông tin điện tử K-GPT AI Studio</div>
+                <div>Bản quyền thuộc về <span class="font-semibold text-slate-200">Trần Anh Khoa</span> | Thiết kế và vận hành: <span class="text-blue-400 font-bold">KHOACIT</span></div>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-4">
-                <a href="tel:0899997781" class="hover:text-blue-500 transition"><i class="fa-solid fa-phone text-blue-500 mr-1"></i>0899997781</a>
-                <a href="mailto:anhkhoat363@gmail.com" class="hover:text-blue-500 transition"><i class="fa-solid fa-envelope text-blue-500 mr-1"></i>anhkhoat363@gmail.com</a>
-                <button onclick="openFeedbackModal()" class="hover:text-blue-500 transition"><i class="fa-solid fa-comments text-blue-500 mr-1"></i>Liên hệ - Góp ý</button>
+                <a href="tel:0899997781" class="hover:text-blue-400 transition"><i class="fa-solid fa-phone text-blue-400 mr-1.5"></i>0899997781</a>
+                <a href="mailto:anhkhoat363@gmail.com" class="hover:text-blue-400 transition"><i class="fa-solid fa-envelope text-blue-400 mr-1.5"></i>anhkhoat363@gmail.com</a>
+                <button onclick="openFeedbackModal()" class="hover:text-blue-400 transition"><i class="fa-solid fa-comments text-blue-400 mr-1.5"></i>Liên hệ - Góp ý</button>
             </div>
-            <div class="flex items-center space-x-3 glass-card px-3.5 py-1.5 rounded-xl border">
-                <span>Đang truy cập: <strong id="onlineCount" class="text-emerald-500">42</strong></span>
-                <span class="text-slate-400">•</span>
-                <span>Lượt truy cập: <strong id="totalVisits" class="text-blue-500">204,150</strong></span>
+            <div class="flex items-center space-x-3 glass-card px-3.5 py-2 rounded-xl border border-slate-800">
+                <span>Đang truy cập: <strong id="onlineCount" class="text-emerald-400 font-bold">54</strong></span>
+                <span class="text-slate-500">•</span>
+                <span>Lượt truy cập: <strong id="totalVisits" class="text-blue-400 font-bold">215,890</strong></span>
             </div>
         </div>
     </footer>
 
     <!-- MODAL FEEDBACK -->
-    <div id="feedbackModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-        <div class="glass-panel border rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
-            <button onclick="closeFeedbackModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-white p-2">
+    <div id="feedbackModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 custom-modal-backdrop">
+        <div class="glass-panel border border-slate-800 rounded-3xl w-full max-w-md p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeFeedbackModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <h3 class="text-lg font-bold mb-1 flex items-center gap-2">
-                <i class="fa-solid fa-paper-plane text-blue-500"></i> Liên hệ - Góp ý K-GPT
+            <h3 class="text-lg font-bold mb-1 flex items-center gap-2 text-slate-100">
+                <i class="fa-solid fa-paper-plane text-blue-400"></i> Liên hệ & Góp ý K-GPT
             </h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Gửi ý kiến đóng góp trực tiếp đến Trần Anh Khoa & đội ngũ KHOACIT.</p>
+            <p class="text-xs text-slate-400 mb-5">Gửi ý kiến đóng góp trực tiếp đến Trần Anh Khoa & đội ngũ phát triển KHOACIT.</p>
 
-            <form onsubmit="submitFeedback(event)" class="space-y-3.5">
+            <form onsubmit="submitFeedback(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold mb-1">Họ và tên</label>
-                    <input type="text" id="fbName" required placeholder="Nguyễn Văn A" class="w-full glass-card border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-blue-500">
+                    <label class="block text-xs font-semibold mb-1.5 text-slate-300">Họ và tên</label>
+                    <input type="text" id="fbName" required placeholder="Nguyễn Văn A" class="w-full glass-card border border-slate-800 rounded-xl px-3.5 py-3 text-xs focus:outline-none focus:border-blue-500 text-slate-100 placeholder-slate-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold mb-1">Nội dung góp ý</label>
-                    <textarea id="fbContent" rows="3" required placeholder="Nhập ý kiến đánh giá của bạn..." class="w-full glass-card border rounded-xl p-3 text-xs focus:outline-none focus:border-blue-500 resize-none"></textarea>
+                    <label class="block text-xs font-semibold mb-1.5 text-slate-300">Nội dung góp ý</label>
+                    <textarea id="fbContent" rows="3" required placeholder="Nhập ý kiến đánh giá hoặc yêu cầu tính năng..." class="w-full glass-card border border-slate-800 rounded-xl p-3.5 text-xs focus:outline-none focus:border-blue-500 resize-none text-slate-100 placeholder-slate-500"></textarea>
                 </div>
-                <div class="flex justify-end space-x-2.5 pt-2">
-                    <button type="button" onclick="closeFeedbackModal()" class="px-4 py-2 rounded-xl glass-card text-xs font-semibold hover:opacity-80 transition">Hủy</button>
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-600/30 transition">Gửi Phản Hồi</button>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeFeedbackModal()" class="px-4 py-2.5 rounded-xl glass-card text-xs font-semibold hover:opacity-80 transition text-slate-300">Hủy</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-blue-600/30 transition">Gửi Phản Hồi</button>
                 </div>
             </form>
         </div>
@@ -317,33 +299,20 @@
 
     <!-- CUSTOM MESSAGE MODAL -->
     <div id="customModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 custom-modal-backdrop">
-        <div class="glass-panel border rounded-2xl w-full max-w-sm p-6 text-center shadow-2xl">
-            <div id="customModalIcon" class="w-12 h-12 mx-auto mb-3 rounded-full bg-blue-500/20 text-blue-500 flex items-center justify-center text-xl">
+        <div class="glass-panel border border-slate-800 rounded-3xl w-full max-w-sm p-6 text-center shadow-2xl">
+            <div id="customModalIcon" class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl shadow-inner">
                 <i class="fa-solid fa-info"></i>
             </div>
-            <h4 id="customModalTitle" class="text-base font-bold mb-2">Thông báo</h4>
-            <p id="customModalMessage" class="text-xs text-slate-600 dark:text-slate-300 mb-5 leading-relaxed"></p>
-            <button onclick="closeCustomModal()" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow">Đã hiểu</button>
+            <h4 id="customModalTitle" class="text-base font-bold mb-2 text-slate-100">Thông báo</h4>
+            <p id="customModalMessage" class="text-xs text-slate-300 mb-6 leading-relaxed"></p>
+            <button onclick="closeCustomModal()" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30">Đã hiểu</button>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        const GEMINI_API_KEY = "AQ.Ab8RN6LuVAyMv0GFdkPhCakOYiwESZea1ig-yqAKcvGJ-_yusg";
+        const GEMINI_API_KEY = "AQ.Ab8RN6IpFl67dsF_nfm1DpXY1TMpLvh6SVqsLcmGEWKRFmSgkg";
         let currentMode = 'chat'; // 'chat', 'image', 'video'
-
-        // Theme Toggle Function
-        function toggleTheme() {
-            const htmlEl = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            if (htmlEl.classList.contains('dark')) {
-                htmlEl.classList.remove('dark');
-                themeIcon.className = "fa-solid fa-sun text-base";
-            } else {
-                htmlEl.classList.add('dark');
-                themeIcon.className = "fa-solid fa-moon text-base";
-            }
-        }
 
         function setInteractionMode(mode) {
             currentMode = mode;
@@ -355,7 +324,7 @@
 
             [btnChat, btnImage, btnVideo].forEach(btn => {
                 if(btn) {
-                    btn.className = "px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-300 hover:text-blue-500 transition";
+                    btn.className = "px-4 py-2 rounded-xl text-slate-400 hover:text-white transition";
                 }
             });
 
@@ -366,28 +335,28 @@
             const inputEl = document.getElementById('chatInput');
 
             if (mode === 'chat') {
-                if(btnChat) btnChat.className = "px-3 py-1.5 rounded-lg bg-blue-600 text-white transition shadow";
-                iconEl.className = "w-7 h-7 rounded-lg bg-blue-500/20 text-blue-500 flex items-center justify-center text-xs";
+                if(btnChat) btnChat.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white transition shadow-lg shadow-blue-600/30";
+                iconEl.className = "w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm shadow-inner";
                 iconEl.innerHTML = '<i class="fa-solid fa-comments"></i>';
                 titleEl.innerText = "K-GPT Neural Chat & Trợ lý thông minh";
                 descEl.innerText = "Hỏi đáp logic, xử lý mã nguồn và phân tích đa tầng";
                 if(indicatorEl) indicatorEl.innerText = "Chế độ: Trò chuyện AI";
                 if(inputEl) inputEl.placeholder = "Nhập yêu cầu trò chuyện hoặc hỏi đáp tại đây...";
             } else if (mode === 'image') {
-                if(btnImage) btnImage.className = "px-3 py-1.5 rounded-lg bg-sky-600 text-white transition shadow";
-                iconEl.className = "w-7 h-7 rounded-lg bg-sky-500/20 text-sky-500 flex items-center justify-center text-xs";
+                if(btnImage) btnImage.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white transition shadow-lg shadow-indigo-600/30";
+                iconEl.className = "w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm shadow-inner";
                 iconEl.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i>';
                 titleEl.innerText = "K-GPT Imagen Studio AI";
                 descEl.innerText = "Tạo hình ảnh nghệ thuật chất lượng cao từ mô tả văn bản";
                 if(indicatorEl) indicatorEl.innerText = "Chế độ: Tạo hình ảnh AI";
                 if(inputEl) inputEl.placeholder = "Mô tả hình ảnh bạn muốn tạo (Ví dụ: Thành phố tương lai 8k)...";
             } else if (mode === 'video') {
-                if(btnVideo) btnVideo.className = "px-3 py-1.5 rounded-lg bg-indigo-600 text-white transition shadow";
-                iconEl.className = "w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-500 flex items-center justify-center text-xs";
+                if(btnVideo) btnVideo.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white transition shadow-lg shadow-purple-600/30";
+                iconEl.className = "w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm shadow-inner";
                 iconEl.innerHTML = '<i class="fa-solid fa-film"></i>';
                 titleEl.innerText = "K-GPT Veo Motion Simulation";
                 descEl.innerText = "Mô phỏng chuyển động phân cảnh video trực quan";
-                if(indicatorEl) indicatorEl.innerText = "Chế độ: Mô phỏng video";
+                if(indicatorEl) indicatorEl.innerText = "Chế độ: Mô phỏng Veo";
                 if(inputEl) inputEl.placeholder = "Mô tả ý tưởng chuyển động phân cảnh video...";
             }
         }
@@ -406,10 +375,10 @@
             document.getElementById('customModalMessage').innerText = message;
             const iconEl = document.getElementById('customModalIcon');
             if (isError) {
-                iconEl.className = "w-12 h-12 mx-auto mb-3 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center text-xl";
+                iconEl.className = "w-14 h-14 mx-auto mb-4 rounded-2xl bg-red-500/20 text-red-400 flex items-center justify-center text-xl shadow-inner";
                 iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
             } else {
-                iconEl.className = "w-12 h-12 mx-auto mb-3 rounded-full bg-blue-500/20 text-blue-500 flex items-center justify-center text-xl";
+                iconEl.className = "w-14 h-14 mx-auto mb-4 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl shadow-inner";
                 iconEl.innerHTML = '<i class="fa-solid fa-info"></i>';
             }
             document.getElementById('customModal').classList.remove('hidden');
@@ -430,7 +399,7 @@
                 if (onlineEl) {
                     let current = parseInt(onlineEl.innerText);
                     let change = Math.floor(Math.random() * 5) - 2;
-                    onlineEl.innerText = Math.max(30, current + change);
+                    onlineEl.innerText = Math.max(40, current + change);
                 }
             }, 1000);
         };
@@ -446,7 +415,7 @@
 
             let displayContent = userText;
             if (attachedImageBase64) {
-                displayContent = `<div class="mb-2"><img src="${attachedImageBase64}" class="max-h-48 rounded-lg border object-cover"></div>` + userText;
+                displayContent = `<div class="mb-3"><img src="${attachedImageBase64}" class="max-h-48 rounded-xl border border-blue-500/30 object-cover shadow-lg"></div>` + userText;
             }
 
             appendChatMessage('user', displayContent);
@@ -542,12 +511,12 @@
                 if (part && part.inlineData) {
                     const imageUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
                     const imgHtml = `
-                        <div class="space-y-2">
-                            <p class="text-xs font-bold text-sky-500">🎨 Kết quả tạo ảnh AI cho: "${prompt}"</p>
-                            <img src="${imageUrl}" class="max-h-72 w-auto rounded-xl shadow-xl object-contain border">
+                        <div class="space-y-3">
+                            <p class="text-xs font-bold text-indigo-400 flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles"></i> Kết quả tạo ảnh AI: "${prompt}"</p>
+                            <img src="${imageUrl}" class="max-h-80 w-auto rounded-2xl shadow-2xl object-contain border border-indigo-500/30">
                             <div>
-                                <a href="${imageUrl}" download="kgpt-ai-image.jpg" class="inline-flex items-center text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition shadow">
-                                    <i class="fa-solid fa-download mr-1.5"></i> Tải ảnh xuống
+                                <a href="${imageUrl}" download="kgpt-ai-image.jpg" class="inline-flex items-center text-xs font-semibold px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white transition shadow-lg shadow-indigo-600/30">
+                                    <i class="fa-solid fa-download mr-2"></i> Tải ảnh xuống chất lượng cao
                                 </a>
                             </div>
                         </div>
@@ -568,12 +537,12 @@
             removeChatLoading(loadingId);
             const canvasId = 'canvas-' + Date.now();
             const vidHtml = `
-                <div class="space-y-2">
-                    <p class="text-xs font-bold text-indigo-500">🎬 Mô phỏng Video Veo Motion cho: "${prompt}"</p>
-                    <div class="glass-card p-2 rounded-xl inline-block border">
-                        <canvas id="${canvasId}" class="max-h-[220px] w-auto rounded-lg shadow-xl block"></canvas>
+                <div class="space-y-3">
+                    <p class="text-xs font-bold text-purple-400 flex items-center gap-1.5"><i class="fa-solid fa-film"></i> Mô phỏng Veo Motion: "${prompt}"</p>
+                    <div class="glass-card p-2 rounded-2xl inline-block border border-purple-500/30 shadow-2xl">
+                        <canvas id="${canvasId}" class="max-h-[250px] w-auto rounded-xl shadow-lg block"></canvas>
                     </div>
-                    <p class="text-[10px] text-slate-400">Đang chạy hoạt họa mô phỏng chuyển động thời gian thực...</p>
+                    <p class="text-[11px] text-slate-400 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span> Đang chạy hoạt họa chuyển động phân cảnh thời gian thực...</p>
                 </div>
             `;
             appendChatMessage('ai', vidHtml);
@@ -581,25 +550,42 @@
             setTimeout(() => {
                 const canvas = document.getElementById(canvasId);
                 if (canvas) {
-                    canvas.width = 480;
-                    canvas.height = 270;
+                    canvas.width = 500;
+                    canvas.height = 280;
                     const ctx = canvas.getContext('2d');
-                    let hue = 210;
+                    let hue = 260;
+                    let angle = 0;
                     
                     function drawSimFrame() {
-                        ctx.fillStyle = `hsl(${hue}, 80%, 12%)`;
+                        ctx.fillStyle = `hsl(${hue}, 70%, 10%)`;
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
                         
+                        ctx.save();
+                        ctx.translate(canvas.width / 2, canvas.height / 2 - 20);
+                        ctx.rotate(angle);
+                        ctx.strokeStyle = '#8B5CF6';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, 45, 0, Math.PI * 2);
+                        ctx.stroke();
+
+                        ctx.strokeStyle = '#3B82F6';
+                        ctx.beginPath();
+                        ctx.rect(-30, -30, 60, 60);
+                        ctx.stroke();
+                        ctx.restore();
+
                         ctx.fillStyle = '#ffffff';
                         ctx.font = 'bold 15px Google Sans';
                         ctx.textAlign = 'center';
-                        ctx.fillText('⚡ K-GPT Veo Motion Simulation', canvas.width/2, 100);
+                        ctx.fillText('⚡ K-GPT Veo Neural Engine', canvas.width/2, 215);
                         
                         ctx.font = '11px Google Sans';
-                        ctx.fillStyle = '#8AB4F8';
-                        ctx.fillText(prompt.substring(0, 48) + '...', canvas.width/2, 135);
+                        ctx.fillStyle = '#C4B5FD';
+                        ctx.fillText(prompt.substring(0, 50) + '...', canvas.width/2, 245);
 
-                        hue = (hue + 0.5) % 360;
+                        hue = (hue + 0.3) % 360;
+                        angle += 0.02;
                         requestAnimationFrame(drawSimFrame);
                     }
                     drawSimFrame();
@@ -622,9 +608,9 @@
         function appendChatMessage(sender, htmlContent) {
             const container = document.getElementById('chatMessages');
             const msgDiv = document.createElement('div');
-            msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-4`;
+            msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-5`;
             msgDiv.innerHTML = `
-                <div class="${sender === 'user' ? 'bg-blue-600 text-white rounded-2xl rounded-tr-sm' : 'glass-panel border text-slate-800 dark:text-slate-100 rounded-2xl rounded-tl-sm markdown-body'} p-4 max-w-[90%] sm:max-w-[82%] text-sm shadow-xl">
+                <div class="${sender === 'user' ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-3xl rounded-tr-sm shadow-xl shadow-blue-600/20' : 'glass-panel border border-slate-800 text-slate-100 rounded-3xl rounded-tl-sm markdown-body shadow-2xl'} p-5 max-w-[90%] sm:max-w-[82%] text-sm">
                     ${htmlContent}
                 </div>
             `;
@@ -637,8 +623,8 @@
             const id = 'loading-' + Date.now();
             const msgDiv = document.createElement('div');
             msgDiv.id = id;
-            msgDiv.className = "flex justify-start mb-4";
-            msgDiv.innerHTML = `<div class="glass-panel border p-4 rounded-2xl text-xs flex items-center gap-3 shadow-lg"><div class="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div><span>KGPT đang tư duy và tổng hợp câu trả lời...</span></div>`;
+            msgDiv.className = "flex justify-start mb-5";
+            msgDiv.innerHTML = `<div class="glass-panel border border-slate-800 p-5 rounded-3xl text-xs flex items-center gap-3.5 shadow-xl"><div class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div><span class="text-slate-200 font-medium">KGPT Neural Engine đang tổng hợp và tư duy câu trả lời...</span></div>`;
             container.appendChild(msgDiv);
             container.scrollTop = container.scrollHeight;
             return id;
@@ -672,14 +658,14 @@
         function clearCurrentSession() {
             chatHistory = [];
             document.getElementById('chatMessages').innerHTML = `
-                <div class="max-w-2xl mx-auto my-6 text-center px-4">
-                    <div class="relative w-16 h-16 mx-auto mb-4 rounded-2xl chip-animated-border p-1 flex items-center justify-center shadow-xl animate-pulse-chip">
-                        <div class="w-full h-full dark:bg-[#0B0F19] bg-white rounded-[14px] flex items-center justify-center">
-                            <i class="fa-solid fa-microchip text-blue-500 text-3xl"></i>
+                <div class="max-w-2xl mx-auto my-8 text-center px-4">
+                    <div class="relative w-20 h-20 mx-auto mb-5 rounded-3xl chip-animated-border p-1 flex items-center justify-center shadow-2xl animate-pulse-chip">
+                        <div class="w-full h-full bg-[#030712] rounded-[22px] flex items-center justify-center">
+                            <i class="fa-solid fa-microchip text-blue-400 text-4xl"></i>
                         </div>
                     </div>
-                    <h2 class="text-xl font-extrabold mb-2">Phiên hội thoại mới</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Bạn muốn trao đổi trò chuyện, tạo hình ảnh hay mô phỏng video hôm nay?</p>
+                    <h2 class="text-2xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Phiên hội thoại mới</h2>
+                    <p class="text-xs text-slate-400">Bạn muốn trao đổi trò chuyện, tạo hình ảnh hay mô phỏng video hôm nay?</p>
                 </div>
             `;
         }
