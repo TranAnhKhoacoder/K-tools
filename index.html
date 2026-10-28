@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-GPT - AI Video & Image Generator Studio</title>
+    <title>K-GPT - AI Studio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -17,17 +17,19 @@
                 extend: {
                     colors: {
                         kgpt: {
-                            bg: '#0B0F19',
-                            card: '#131927',
+                            bg: '#080B11',
+                            card: '#111726',
                             border: '#1E293B',
                             accent: '#6366F1',
                             glow: '#8B5CF6',
                             emerald: '#10B981',
-                            pink: '#EC4899'
+                            pink: '#EC4899',
+                            cyan: '#06B6D4'
                         }
                     },
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
                     }
                 }
             }
@@ -41,29 +43,18 @@
             overflow-x: hidden;
         }
 
-        /* Glassmorphic elements */
         .glass-panel {
-            background: rgba(19, 25, 39, 0.7);
+            background: rgba(17, 23, 38, 0.85);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .glass-card {
-            background: rgba(30, 41, 59, 0.5);
+            background: rgba(30, 41, 59, 0.4);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Neon Glow Effects */
-        .neon-glow {
-            box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.4);
-        }
-
-        .neon-text {
-            text-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
-        }
-
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -79,26 +70,22 @@
             background: #6366F1;
         }
 
-        /* Pulsing animation for active counters */
         @keyframes pulse-dot {
             0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.6; }
+            50% { transform: scale(1.35); opacity: 0.5; }
         }
         .animate-pulse-dot {
             animation: pulse-dot 2s infinite ease-in-out;
         }
 
-        /* Animated Gradient Border */
-        .gradient-border {
-            position: relative;
-            border-radius: 0.75rem;
-            background: linear-gradient(135deg, #6366f1, #ec4899, #8b5cf6);
-            padding: 1px;
-        }
-        .gradient-border-inner {
-            background: #0d1322;
-            border-radius: calc(0.75rem - 1px);
-        }
+        .markdown-body p { margin-bottom: 0.75rem; line-height: 1.7; }
+        .markdown-body p:last-child { margin-bottom: 0; }
+        .markdown-body ul, .markdown-body ol { margin-left: 1.5rem; margin-bottom: 0.75rem; list-style-type: disc; }
+        .markdown-body code { font-family: 'Fira Code', monospace; background: rgba(15, 23, 42, 0.9); padding: 0.2rem 0.45rem; border-radius: 0.3rem; font-size: 0.85em; color: #38BDF8; }
+        .markdown-body pre { font-family: 'Fira Code', monospace; background: #0B0F19; padding: 1rem; border-radius: 0.75rem; overflow-x: auto; margin-bottom: 0.75rem; border: 1px solid #1E293B; }
+        .markdown-body pre code { background: transparent; padding: 0; color: #E2E8F0; }
+        .markdown-body h3 { font-size: 1.15rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #F8FAFC; }
+        .markdown-body h4 { font-size: 1rem; font-weight: 600; margin-top: 0.8rem; margin-bottom: 0.4rem; color: #E2E8F0; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen justify-between antialiased selection:bg-indigo-500 selection:text-white">
@@ -107,20 +94,17 @@
     <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 px-4 lg:px-6 py-3">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             
-            <!-- Brand Logo -->
             <div class="flex items-center space-x-3">
-                <button id="mobileMenuBtn" class="lg:hidden text-slate-400 hover:text-white p-2">
-                    <i class="fa-solid fa-bars text-xl"></i>
-                </button>
-                <div class="flex items-center space-x-2 cursor-pointer" onclick="switchMode('chat')">
+                <button onclick="switchMode('chat')" class="flex items-center space-x-2.5 cursor-pointer focus:outline-none">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
                         <i class="fa-solid fa-brain text-white text-xl"></i>
                     </div>
                     <div>
-                        <span class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 tracking-wider">K-GPT</span>
-                        <span class="hidden sm:inline-block text-xs px-2 py-0.5 ml-2 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold">AI PRO v3.5</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 tracking-wider">K-GPT</span>
+                        </div>
                     </div>
-                </div>
+                </button>
             </div>
 
             <!-- Mode Selector Switches -->
@@ -139,16 +123,15 @@
                 </button>
             </div>
 
-            <!-- Header Action Controls -->
             <div class="flex items-center space-x-3">
-                <button onclick="openFeedbackModal()" class="hidden sm:flex items-center space-x-2 text-xs font-semibold px-3 py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/30 hover:bg-purple-600/30 transition">
+                <button onclick="openFeedbackModal()" class="flex items-center space-x-2 text-xs font-semibold px-3 py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/30 hover:bg-purple-600/30 transition">
                     <i class="fa-solid fa-paper-plane"></i>
                     <span>Góp Ý</span>
                 </button>
                 <div class="h-6 w-[1px] bg-slate-800 hidden sm:block"></div>
                 <div class="flex items-center space-x-2 bg-slate-900/80 border border-slate-800 rounded-full px-3 py-1">
                     <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-dot"></div>
-                    <span class="text-xs text-slate-300 font-medium">Gemini 3 Flash</span>
+                    <span class="text-xs text-slate-300 font-medium">📍 Huế, Việt Nam | 28/10/2026</span>
                 </div>
             </div>
         </div>
@@ -156,13 +139,13 @@
 
     <!-- Mobile Navigation Switch Bar -->
     <div class="md:hidden flex justify-around bg-slate-950/90 border-b border-slate-800/80 p-2 text-xs">
-        <button id="mBtnNavChat" onclick="switchMode('chat')" class="flex-1 py-2 rounded-lg font-medium text-center bg-indigo-600 text-white">
+        <button onclick="switchMode('chat')" class="flex-1 py-2 rounded-lg font-medium text-center bg-indigo-600 text-white">
             <i class="fa-solid fa-comments mr-1"></i> Chat
         </button>
-        <button id="mBtnNavImage" onclick="switchMode('image')" class="flex-1 py-2 rounded-lg font-medium text-center text-slate-400">
+        <button onclick="switchMode('image')" class="flex-1 py-2 rounded-lg font-medium text-center text-slate-400">
             <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Tạo Ảnh
         </button>
-        <button id="mBtnNavVideo" onclick="switchMode('video')" class="flex-1 py-2 rounded-lg font-medium text-center text-slate-400">
+        <button onclick="switchMode('video')" class="flex-1 py-2 rounded-lg font-medium text-center text-slate-400">
             <i class="fa-solid fa-film mr-1"></i> Tạo Video
         </button>
     </div>
@@ -170,18 +153,19 @@
     <!-- Main Content Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-6 py-4 flex gap-6 overflow-hidden relative">
 
-        <!-- Sidebar Panel (History & Tools) -->
-        <aside id="sidebar" class="hidden lg:flex flex-col w-64 glass-panel rounded-2xl p-4 shrink-0 border border-slate-800/80 flex-between">
+        <!-- Sidebar Panel -->
+        <aside class="hidden lg:flex flex-col w-64 glass-panel rounded-2xl p-4 shrink-0 border border-slate-800/80 justify-between">
             <div class="space-y-4">
                 <button onclick="clearCurrentSession()" class="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/20 transition duration-200">
                     <i class="fa-solid fa-plus"></i>
-                    <span>Tạo Phiên Mới</span>
+                    <span>Đoạn chat mới</span>
                 </button>
 
                 <div>
-                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-2">Lịch Sử Hoạt Động</h4>
-                    <div id="historyList" class="space-y-1.5 max-h-[380px] overflow-y-auto pr-1">
-                        <!-- History Items populated by JS -->
+                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-2">Gần đây</h4>
+                    <div id="historyList" class="space-y-1.5 max-h-[350px] overflow-y-auto pr-1">
+                        <div class="p-2.5 rounded-xl bg-slate-800/40 text-xs text-slate-300 truncate cursor-pointer hover:bg-slate-800">Cập nhật công nghệ 2026</div>
+                        <div class="p-2.5 rounded-xl text-xs text-slate-400 truncate cursor-pointer hover:bg-slate-800">Tối ưu hóa lập trình viên</div>
                     </div>
                 </div>
             </div>
@@ -190,13 +174,10 @@
             <div class="mt-auto pt-4 border-t border-slate-800/80">
                 <div class="p-3 rounded-xl bg-gradient-to-br from-indigo-950/60 to-purple-950/60 border border-indigo-500/20">
                     <div class="flex items-center space-x-2 text-indigo-300 font-bold text-xs mb-1">
-                        <i class="fa-solid fa-bolt text-amber-400"></i>
-                        <span>K-GPT Super Mode</span>
+                        <i class="fa-solid fa-sparkles text-amber-400"></i>
+                        <span>K-GPT Core Intelligence</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 mb-2">Sử dụng trí tuệ nhân tạo thế hệ mới nhất xử lý ngôn ngữ, hình ảnh & video.</p>
-                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                        <div class="bg-gradient-to-r from-indigo-500 to-pink-500 h-full w-[85%]"></div>
-                    </div>
+                    <p class="text-[11px] text-slate-400">Được tích hợp trí tuệ thế hệ mới từ KGPT AI, hỗ trợ tư duy logic mở rộng, đọc hiểu hình ảnh, viết mã nguồn và xây dựng prompt hình ảnh/video vượt trội.</p>
                 </div>
             </div>
         </aside>
@@ -206,125 +187,94 @@
             
             <!-- 1. CHAT MODE PANEL -->
             <div id="panelChat" class="flex-1 flex flex-col h-full">
-                <!-- Chat Messages Scroll Container -->
-                <div id="chatMessages" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
-                    <!-- Welcome AI Banner -->
-                    <div class="max-w-2xl mx-auto my-6 p-6 rounded-2xl glass-card text-center border border-indigo-500/20 relative overflow-hidden">
-                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl"></div>
-                        <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-2xl">
-                            <i class="fa-solid fa-robot"></i>
+                <div id="chatMessages" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+                    <div class="max-w-2xl mx-auto my-12 text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-3xl shadow-xl shadow-indigo-500/20">
+                            <i class="fa-solid fa-brain"></i>
                         </div>
-                        <h2 class="text-xl font-bold text-white mb-2">Xin chào! Tôi là AI K-GPT</h2>
-                        <p class="text-sm text-slate-400 max-w-lg mx-auto">
-                            Tôi có thể giúp bạn giải đáp thắc mắc, viết bài, lập trình, cũng như tạo ra các tác phẩm **Hình Ảnh** và **Video** bằng công nghệ trí tuệ nhân tạo vượt trội.
+                        <h2 class="text-2xl font-bold text-white mb-2">Xin chào, tôi là K-GPT</h2>
+                        <p class="text-sm text-slate-400 mb-6">
+                            Được tích hợp trí tuệ thế hệ mới từ KGPT AI, hỗ trợ tư duy logic mở rộng, đọc hiểu hình ảnh, viết mã nguồn và xây dựng prompt hình ảnh/video vượt trội.
                         </p>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-4 text-xs">
-                            <button onclick="fillPrompt('Hãy viết một bài văn ngắn truyền cảm hứng về công nghệ AI.')" class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700 text-left truncate">
-                                ✍️ Viết bài truyền cảm hứng
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-left">
+                            <button onclick="fillPrompt('Xu hướng công nghệ thông tin nổi bật nhất tính đến tháng 10 năm 2026?')" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 transition">
+                                💡 Xu hướng công nghệ 2026
                             </button>
-                            <button onclick="fillPrompt('Gợi ý ý tưởng kịch bản video ngắn TikTok về du lịch Việt Nam.')" class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700 text-left truncate">
-                                🎬 Kịch bản Video TikTok
+                            <button onclick="fillPrompt('Viết một đoạn code Python tính số nguyên tố tối ưu.')" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 transition">
+                                💻 Viết mã nguồn Python
                             </button>
-                            <button onclick="switchMode('image')" class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700 text-left truncate">
-                                🎨 Chuyển sang Tạo Ảnh AI
+                            <button onclick="fillPrompt('Lên kịch bản chi tiết cho video quảng cáo công nghệ.')" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 transition">
+                                🎬 Lên kịch bản video
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Chat Input Controls -->
+                <!-- Attached Image Preview Container -->
+                <div id="attachedImagePreview" class="hidden px-4 py-2 bg-slate-900 border-t border-slate-800 flex items-center space-x-3">
+                    <img id="attachedImg" src="" alt="Upload Preview" class="w-12 h-12 rounded-lg object-cover border border-slate-700">
+                    <div class="flex-1">
+                        <p class="text-xs text-slate-200 font-medium">Hình ảnh đã tải lên để AI phân tích</p>
+                        <p class="text-[10px] text-slate-400" id="attachedImgName">image.png</p>
+                    </div>
+                    <button onclick="removeAttachedImage()" class="text-slate-400 hover:text-red-400 p-1">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Input Controls -->
                 <div class="p-3 md:p-4 bg-slate-950/80 border-t border-slate-800/80">
-                    <form id="chatForm" onsubmit="handleChatSubmit(event)" class="relative flex items-center">
-                        <textarea id="chatInput" rows="1" placeholder="Hỏi K-GPT bất cứ điều gì hoặc yêu cầu hỗ trợ..." 
-                            class="w-full bg-slate-900/90 text-slate-100 placeholder-slate-500 text-sm rounded-xl pl-4 pr-14 py-3 border border-slate-700 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 resize-none max-h-32"
+                    <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+                    
+                    <form id="chatForm" onsubmit="handleChatSubmit(event)" class="relative flex items-center max-w-4xl mx-auto">
+                        <button type="button" onclick="const input = document.getElementById('imageInput'); if(input) input.click();" title="Đính kèm hình ảnh" class="absolute left-3 text-slate-400 hover:text-indigo-400 transition">
+                            <i class="fa-solid fa-paperclip text-sm"></i>
+                        </button>
+                        <textarea id="chatInput" rows="1" placeholder="Nhập câu hỏi hoặc yêu cầu của bạn..." 
+                            class="w-full bg-slate-900/90 text-slate-100 placeholder-slate-500 text-sm rounded-xl pl-10 pr-14 py-3 border border-slate-700 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 resize-none max-h-32"
                             onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); handleChatSubmit(event); }"></textarea>
                         
-                        <button type="submit" id="btnSendChat" class="absolute right-2 text-white bg-indigo-600 hover:bg-indigo-500 w-9 h-9 rounded-lg flex items-center justify-center transition">
-                            <i class="fa-solid fa-paper-plane text-sm"></i>
+                        <button type="submit" class="absolute right-2 text-white bg-indigo-600 hover:bg-indigo-500 w-9 h-9 rounded-lg flex items-center justify-center transition">
+                            <i class="fa-solid fa-arrow-up text-sm"></i>
                         </button>
                     </form>
-                    <div class="flex justify-between items-center mt-2 px-1 text-[11px] text-slate-500">
-                        <span>Nhấn <kbd class="px-1 bg-slate-800 border border-slate-700 rounded text-slate-400">Enter</kbd> để gửi, <kbd class="px-1 bg-slate-800 border border-slate-700 rounded text-slate-400">Shift + Enter</kbd> xuống dòng.</span>
-                        <span class="text-indigo-400 font-medium"><i class="fa-solid fa-sparkles mr-1"></i>Trí tuệ nhân tạo Gemini 3 Flash</span>
-                    </div>
                 </div>
             </div>
 
             <!-- 2. AI IMAGE STUDIO PANEL -->
             <div id="panelImage" class="hidden flex-1 flex flex-col h-full overflow-y-auto p-4 md:p-6 space-y-6">
-                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                    <div>
-                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> AI Image Studio
-                        </h2>
-                        <p class="text-xs text-slate-400">Tạo hình ảnh nghệ thuật độc đáo từ mô tả văn bản của bạn</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/30 text-xs font-semibold">
-                        Model: Gemini 3.1 Flash Image
-                    </span>
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> AI Image Studio
+                    </h2>
+                    <p class="text-xs text-slate-400">Tạo hình ảnh chất lượng cao dựa trên prompt thông minh</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <!-- Left Options & Prompt Form -->
                     <div class="lg:col-span-5 space-y-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-2">Mô tả hình ảnh (Prompt)</label>
-                            <textarea id="imagePrompt" rows="4" placeholder="Ví dụ: Một chú mèo phi hành gia cưỡi ván trượt trên dải ngân hà, hiệu ứng Cyberpunk neon sáng rực, 8K hyper-realistic..." 
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Mô tả hình ảnh mong muốn</label>
+                            <textarea id="imagePrompt" rows="4" placeholder="Ví dụ: Thành phố tương lai lung linh ánh đèn neon về đêm, 8k resolution..." 
                                 class="w-full bg-slate-900 text-slate-100 placeholder-slate-500 text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-purple-500"></textarea>
                         </div>
 
-                        <!-- Style Selection -->
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-2">Phong cách Nghệ thuật</label>
-                            <div class="grid grid-cols-3 gap-2">
-                                <button type="button" onclick="selectStyle(this, 'Cyberpunk Neon')" class="style-btn active border-purple-500 bg-purple-600/20 text-white p-2 text-xs rounded-xl border font-medium text-center">Cyberpunk</button>
-                                <button type="button" onclick="selectStyle(this, 'Anime Masterpiece')" class="style-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center">Anime</button>
-                                <button type="button" onclick="selectStyle(this, 'Photorealistic 8K')" class="style-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center">Chân thực</button>
-                                <button type="button" onclick="selectStyle(this, '3D Digital Art')" class="style-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center">3D Render</button>
-                                <button type="button" onclick="selectStyle(this, 'Fantasy Concept Art')" class="style-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center">Fantasy</button>
-                                <button type="button" onclick="selectStyle(this, 'Watercolor Sketch')" class="style-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center">Màu nước</button>
-                            </div>
-                        </div>
-
-                        <!-- Aspect Ratio -->
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-2">Tỷ lệ Khung hình</label>
-                            <div class="grid grid-cols-3 gap-2">
-                                <button type="button" onclick="selectRatio(this, '1:1')" class="ratio-btn active border-indigo-500 bg-indigo-600/20 text-white p-2 text-xs rounded-xl border font-medium text-center">1:1 (Vuông)</button>
-                                <button type="button" onclick="selectRatio(this, '16:9')" class="ratio-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center">16:9 (Ngang)</button>
-                                <button type="button" onclick="selectRatio(this, '9:16')" class="ratio-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center">9:16 (Dọc)</button>
-                            </div>
-                        </div>
-
-                        <button onclick="generateImage()" id="btnGenerateImg" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition flex items-center justify-center space-x-2">
+                        <button onclick="generateImage()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-sparkles"></i>
                             <span>Tạo Hình Ảnh AI</span>
                         </button>
                     </div>
 
-                    <!-- Right Result Display -->
-                    <div class="lg:col-span-7 flex flex-col items-center justify-center glass-card rounded-2xl p-4 min-h-[350px] border border-slate-800 relative">
+                    <div class="lg:col-span-7 flex flex-col items-center justify-center glass-card rounded-2xl p-4 min-h-[380px] border border-slate-800 relative">
                         <div id="imgPlaceholder" class="text-center p-6">
                             <i class="fa-regular fa-image text-5xl text-slate-700 mb-3 block"></i>
-                            <p class="text-sm text-slate-400 font-medium">Hình ảnh khởi tạo sẽ hiển thị tại đây</p>
-                            <p class="text-xs text-slate-500 mt-1">Nhập gợi ý và nhấn "Tạo Hình Ảnh AI"</p>
+                            <p class="text-sm text-slate-400 font-medium">Kết quả tạo hình ảnh hiển thị tại đây</p>
                         </div>
-
                         <div id="imgLoading" class="hidden flex-col items-center justify-center space-y-3">
                             <div class="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-                            <p class="text-sm text-purple-300 font-medium animate-pulse">Đang phác thảo hình ảnh AI...</p>
+                            <p class="text-sm text-purple-300 font-medium animate-pulse">K-GPT AI đang render hình ảnh...</p>
                         </div>
-
                         <div id="imgResultContainer" class="hidden w-full h-full flex flex-col items-center">
-                            <img id="imgResult" src="" alt="AI Generated Output" class="max-h-[380px] w-auto rounded-xl shadow-2xl object-contain border border-slate-700">
-                            <div class="mt-4 flex space-x-3">
-                                <a id="downloadImgBtn" download="K-GPT-Image.png" href="#" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 border border-slate-600">
-                                    <i class="fa-solid fa-download"></i> Tải ảnh về
-                                </a>
-                                <button onclick="copyImgPrompt()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 border border-slate-600">
-                                    <i class="fa-solid fa-copy"></i> Sao chép Prompt
-                                </button>
-                            </div>
+                            <img id="imgResult" src="" alt="AI Output" class="max-h-[380px] w-auto rounded-xl shadow-2xl object-contain border border-slate-700">
                         </div>
                     </div>
                 </div>
@@ -332,97 +282,36 @@
 
             <!-- 3. AI VIDEO STUDIO PANEL -->
             <div id="panelVideo" class="hidden flex-1 flex flex-col h-full overflow-y-auto p-4 md:p-6 space-y-6">
-                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                    <div>
-                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-film text-pink-500"></i> AI Video Studio
-                        </h2>
-                        <p class="text-xs text-slate-400">Tạo chuyển động video điện ảnh chất lượng cao từ ý tưởng của bạn</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-full bg-pink-500/10 text-pink-300 border border-pink-500/30 text-xs font-semibold">
-                        K-GPT Video Engine v2.0
-                    </span>
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-film text-pink-500"></i> AI Video Storyboard Studio
+                    </h2>
+                    <p class="text-xs text-slate-400">Xây dựng phân cảnh kịch bản và mô phỏng chuyển động video</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <!-- Left Form -->
                     <div class="lg:col-span-5 space-y-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-2">Kịch bản / Ý tưởng Video (Prompt)</label>
-                            <textarea id="videoPrompt" rows="4" placeholder="Ví dụ: Cảnh góc quay drone từ trên cao lướt qua thành phố tương lai rực rỡ đèn neon, các xe ô tô bay qua lại mượt mà..." 
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Ý tưởng kịch bản video</label>
+                            <textarea id="videoPrompt" rows="4" placeholder="Ví dụ: Góc máy drone lướt qua thung lũng xanh mướt lúc bình minh..." 
                                 class="w-full bg-slate-900 text-slate-100 placeholder-slate-500 text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-pink-500"></textarea>
                         </div>
-
-                        <!-- Motion & Camera Control -->
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Góc quay Camera</label>
-                                <select id="videoCamera" class="w-full bg-slate-900 text-slate-200 text-xs rounded-xl p-2.5 border border-slate-700">
-                                    <option value="Drone Flyover">Drone Flyover (Bay tầm cao)</option>
-                                    <option value="Cinematic Pan">Cinematic Pan (Xoay ngang)</option>
-                                    <option value="Zoom In Slow">Zoom In Slow (Thu cận cảnh)</option>
-                                    <option value="First Person View">First Person (Góc nhìn thứ nhất)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Độ dài Video</label>
-                                <select id="videoDuration" class="w-full bg-slate-900 text-slate-200 text-xs rounded-xl p-2.5 border border-slate-700">
-                                    <option value="5">5 Giây (Tiêu chuẩn)</option>
-                                    <option value="10">10 Giây (Mở rộng)</option>
-                                    <option value="15">15 Giây (HD Ultra)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Motion Speed Slider -->
-                        <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="text-xs font-semibold text-slate-300">Mức độ Chuyển động</label>
-                                <span id="motionVal" class="text-xs text-pink-400 font-bold">Cao (Fast)</span>
-                            </div>
-                            <input type="range" min="1" max="3" value="3" oninput="updateMotionLabel(this.value)" class="w-full accent-pink-500 cursor-pointer">
-                        </div>
-
-                        <button onclick="generateVideo()" id="btnGenerateVid" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold text-sm shadow-lg shadow-pink-600/30 transition flex items-center justify-center space-x-2">
-                            <i class="fa-solid fa-clapperboard"></i>
-                            <span>Render Video AI</span>
+                        <button onclick="generateVideo()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-pink-600/30 transition">
+                            Render Motion Simulation
                         </button>
                     </div>
 
-                    <!-- Right Display -->
-                    <div class="lg:col-span-7 flex flex-col items-center justify-center glass-card rounded-2xl p-4 min-h-[350px] border border-slate-800 relative">
+                    <div class="lg:col-span-7 flex flex-col items-center justify-center glass-card rounded-2xl p-4 min-h-[380px] border border-slate-800 relative">
                         <div id="vidPlaceholder" class="text-center p-6">
                             <i class="fa-solid fa-video text-5xl text-slate-700 mb-3 block"></i>
-                            <p class="text-sm text-slate-400 font-medium">Khung xem trước Video AI</p>
-                            <p class="text-xs text-slate-500 mt-1">Nhập mô tả kịch bản để bắt đầu Render kịch bản điện ảnh</p>
+                            <p class="text-sm text-slate-400 font-medium">Khung xem trước Motion Video</p>
                         </div>
-
                         <div id="vidLoading" class="hidden flex-col items-center justify-center space-y-3">
                             <div class="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
-                            <p class="text-sm text-pink-300 font-medium animate-pulse">Đang biên tập & Render khung hình Video AI...</p>
-                            <div class="w-48 bg-slate-800 h-2 rounded-full overflow-hidden">
-                                <div id="vidProgressBar" class="bg-pink-500 h-full w-0 transition-all duration-300"></div>
-                            </div>
+                            <p class="text-sm text-pink-300 font-medium animate-pulse">Đang xử lý phân cảnh video...</p>
                         </div>
-
                         <div id="vidResultContainer" class="hidden w-full h-full flex flex-col items-center">
-                            <!-- Canvas / Animated Simulated Video Preview -->
-                            <div class="relative rounded-xl overflow-hidden border border-slate-700 shadow-2xl max-h-[380px] w-full flex justify-center bg-black">
-                                <canvas id="videoCanvas" class="max-h-[360px] w-auto object-contain"></canvas>
-                                <div class="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur border border-slate-700 px-3 py-1 rounded-full text-[11px] text-pink-400 font-semibold flex items-center gap-1.5">
-                                    <span class="w-2 h-2 rounded-full bg-pink-500 animate-ping"></span>
-                                    AI Rendered Preview
-                                </div>
-                            </div>
-                            
-                            <div class="mt-4 flex space-x-3">
-                                <button onclick="triggerVidPlay()" class="px-4 py-2 rounded-xl bg-pink-600 hover:bg-pink-500 text-white text-xs font-semibold flex items-center gap-1.5">
-                                    <i class="fa-solid fa-play"></i> Phát lại Video
-                                </button>
-                                <button onclick="copyVidPrompt()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 border border-slate-600">
-                                    <i class="fa-solid fa-copy"></i> Sao chép Kịch bản
-                                </button>
-                            </div>
+                            <canvas id="videoCanvas" class="max-h-[360px] w-auto object-contain rounded-xl border border-slate-700"></canvas>
                         </div>
                     </div>
                 </div>
@@ -431,168 +320,100 @@
         </section>
     </main>
 
-    <!-- FOOTER TRANG THÔNG TIN ĐIỆN TỬ K-GPT -->
-    <footer class="mt-auto glass-panel border-t border-slate-800/80 py-6 px-4 lg:px-6 relative z-10">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-            
-            <!-- Col 1: Portal Info & Owner -->
-            <div class="space-y-1 text-center md:text-left">
-                <h3 class="font-bold text-sm text-indigo-300 tracking-wide uppercase flex items-center justify-center md:justify-start gap-2">
-                    <i class="fa-solid fa-shield-halved text-indigo-400"></i> Trang thông tin điện tử K-GPT
-                </h3>
-                <p class="text-xs text-slate-400">Bản quyền thuộc về <span class="text-white font-semibold">Trần Anh Khoa</span></p>
-                <p class="text-[11px] text-slate-500">Giấy phép hoạt động thử nghiệm công nghệ AI trực tuyến.</p>
+    <!-- TRANG THÔNG TIN ĐIỆN TỬ K-GPT FOOTER -->
+    <footer class="mt-auto glass-panel border-t border-slate-800/80 py-4 px-4 lg:px-6">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center text-xs text-slate-400 gap-4">
+            <div class="text-center lg:text-left space-y-1">
+                <div class="font-bold text-slate-200 uppercase tracking-wider">Trang thông tin điện tử K-GPT</div>
+                <div>Bản quyền thuộc về <span class="text-white font-semibold">Trần Anh Khoa</span> | Thiết kế và xây dựng: <span class="text-indigo-400 font-bold">KHOACIT</span></div>
             </div>
-
-            <!-- Col 2: Contact Info & Action Modal -->
-            <div class="text-center space-y-1.5">
-                <div class="flex flex-wrap justify-center gap-4 text-xs text-slate-300">
-                    <a href="tel:0899997781" class="hover:text-indigo-400 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-phone text-indigo-400"></i> 0899997781
-                    </a>
-                    <a href="mailto:anhkhoat363@gmail.com" class="hover:text-indigo-400 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-envelope text-indigo-400"></i> anhkhoat363@gmail.com
-                    </a>
-                </div>
-                <div>
-                    <button onclick="openFeedbackModal()" class="text-xs text-pink-400 hover:text-pink-300 underline font-semibold transition inline-flex items-center gap-1">
-                        <i class="fa-regular fa-comment-dots"></i> Liên hệ - Góp ý hệ thống
-                    </button>
-                </div>
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="tel:0899997781" class="hover:text-indigo-400"><i class="fa-solid fa-phone text-indigo-400 mr-1"></i>0899997781</a>
+                <a href="mailto:anhkhoat363@gmail.com" class="hover:text-indigo-400"><i class="fa-solid fa-envelope text-indigo-400 mr-1"></i>anhkhoat363@gmail.com</a>
+                <button onclick="openFeedbackModal()" class="hover:text-indigo-400"><i class="fa-solid fa-comments text-indigo-400 mr-1"></i>Liên hệ - Góp ý</button>
             </div>
-
-            <!-- Col 3: Visitor Statistics & Credits -->
-            <div class="flex flex-col items-center md:items-end space-y-2">
-                <div class="flex items-center space-x-3 bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-1.5 text-xs">
-                    <div class="flex items-center space-x-1.5">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot"></span>
-                        <span class="text-slate-400">Đang truy cập:</span>
-                        <span id="statOnline" class="font-bold text-emerald-400">24</span>
-                    </div>
-                    <span class="text-slate-700">|</span>
-                    <div class="flex items-center space-x-1.5">
-                        <i class="fa-solid fa-eye text-indigo-400 text-[10px]"></i>
-                        <span class="text-slate-400">Lượt đã truy cập:</span>
-                        <span id="statTotal" class="font-bold text-indigo-300">128,540</span>
-                    </div>
-                </div>
-                <div class="text-[11px] text-slate-400 font-medium">
-                    Thiết kế và xây dựng: <span class="text-indigo-400 font-bold tracking-wider">KHOACIT</span>
-                </div>
+            <div class="flex items-center space-x-3 bg-slate-900/90 px-3 py-1.5 rounded-lg border border-slate-800">
+                <span>Đang truy cập: <strong id="onlineCount" class="text-emerald-400">32</strong></span>
+                <span>•</span>
+                <span>Lượt đã truy cập: <strong id="totalVisits" class="text-indigo-400">148,920</strong></span>
             </div>
-
         </div>
     </footer>
 
-    <!-- MODAL LIÊN HỆ - GÓP Ý -->
-    <div id="feedbackModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-        <div class="glass-panel border border-slate-700 rounded-2xl w-full max-w-md p-6 relative shadow-2xl animate-fade-in">
+    <!-- MODAL FEEDBACK -->
+    <div id="feedbackModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+        <div class="glass-panel border border-slate-700 rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
             <button onclick="closeFeedbackModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
-                <i class="fa-solid fa-comments text-indigo-400"></i> Liên hệ & Góp ý K-GPT
+                <i class="fa-solid fa-paper-plane text-purple-400"></i> Liên hệ - Góp ý K-GPT
             </h3>
-            <p class="text-xs text-slate-400 mb-4">Gửi ý kiến đóng góp trực tiếp đến ban phát triển của Trần Anh Khoa.</p>
+            <p class="text-xs text-slate-400 mb-4">Gửi ý kiến đóng góp trực tiếp đến ban quản trị.</p>
 
-            <form onsubmit="handleFeedbackSubmit(event)" class="space-y-3">
+            <form onsubmit="submitFeedback(event)" class="space-y-3">
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Họ và tên</label>
-                    <input type="text" required placeholder="Nhập tên của bạn" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Email / SĐT liên hệ</label>
-                    <input type="text" required placeholder="Ví dụ: anhkhoat363@gmail.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+                    <input type="text" id="fbName" required placeholder="Nguyễn Văn A" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Nội dung góp ý</label>
-                    <textarea rows="3" required placeholder="Cảm nghĩ hoặc tính năng bạn mong muốn bổ sung..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"></textarea>
+                    <textarea id="fbContent" rows="3" required placeholder="Nhập ý kiến của bạn..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"></textarea>
                 </div>
-                <button type="submit" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-lg shadow-indigo-600/30">
-                    Gửi Góp Ý
-                </button>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeFeedbackModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Hủy</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-lg shadow-purple-600/30">Gửi Góp Ý</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC INTEGRATION -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // State variables
-        let currentMode = 'chat';
-        let selectedImgStyle = 'Cyberpunk Neon';
-        let selectedImgRatio = '1:1';
-        let videoAnimInterval = null;
-
-        // Gemini API Config
-        const apiKey = "";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-        // Initialize App
         window.onload = function() {
-            initVisitorStats();
-            renderHistoryItems();
+            setInterval(() => {
+                const el = document.getElementById('onlineCount');
+                if (el) {
+                    let current = parseInt(el.innerText);
+                    let change = Math.floor(Math.random() * 5) - 2;
+                    el.innerText = Math.max(20, current + change);
+                }
+            }, 6000);
         };
 
-        // Switch Navigation Modes
         function switchMode(mode) {
-            currentMode = mode;
-            
-            // Panels Toggle
             document.getElementById('panelChat').classList.add('hidden');
             document.getElementById('panelImage').classList.add('hidden');
             document.getElementById('panelVideo').classList.add('hidden');
 
-            // Button Styles Reset
-            const navBtns = ['NavChat', 'NavImage', 'NavVideo'];
-            navBtns.forEach(btn => {
-                const elDesktop = document.getElementById('btn' + btn);
-                const elMobile = document.getElementById('mBtn' + btn);
-                
-                if (elDesktop) {
-                    elDesktop.className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-800";
-                }
-                if (elMobile) {
-                    elMobile.className = "flex-1 py-2 rounded-lg font-medium text-center text-slate-400";
-                }
-            });
-
-            // Activate Selected Panel & Style
-            if (mode === 'chat') {
-                document.getElementById('panelChat').classList.remove('hidden');
-                document.getElementById('btnNavChat').className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 bg-indigo-600 text-white shadow-md";
-                document.getElementById('mBtnNavChat').className = "flex-1 py-2 rounded-lg font-medium text-center bg-indigo-600 text-white";
-            } else if (mode === 'image') {
-                document.getElementById('panelImage').classList.remove('hidden');
-                document.getElementById('btnNavImage').className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 bg-purple-600 text-white shadow-md";
-                document.getElementById('mBtnNavImage').className = "flex-1 py-2 rounded-lg font-medium text-center bg-purple-600 text-white";
-            } else if (mode === 'video') {
-                document.getElementById('panelVideo').classList.remove('hidden');
-                document.getElementById('btnNavVideo').className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 bg-pink-600 text-white shadow-md";
-                document.getElementById('mBtnNavVideo').className = "flex-1 py-2 rounded-lg font-medium text-center bg-pink-600 text-white";
-            }
+            if (mode === 'chat') document.getElementById('panelChat').classList.remove('hidden');
+            if (mode === 'image') document.getElementById('panelImage').classList.remove('hidden');
+            if (mode === 'video') document.getElementById('panelVideo').classList.remove('hidden');
         }
 
-        // CHAT SUBMIT LOGIC (Integrating Gemini API API Call)
+        let chatHistory = [];
+
         async function handleChatSubmit(e) {
-            e.preventDefault();
+            if (e) e.preventDefault();
             const inputEl = document.getElementById('chatInput');
             const userText = inputEl.value.trim();
             if (!userText) return;
 
-            // Render User Message
             appendChatMessage('user', userText);
             inputEl.value = '';
+            removeAttachedImage();
 
-            // Render Loading Spinner
             const loadingId = appendChatLoading();
 
             try {
-                // System Instruction for K-GPT Persona
-                const systemPrompt = "Bạn là K-GPT, trợ lý AI thông minh đa năng do Trần Anh Khoa (KHOACIT) thiết kế và phát triển. Bạn có tư duy sắc bén, thân thiện, sáng tạo như Gemini. Hãy trả lời chi tiết, ngắn gọn, trình bày đẹp bằng tiếng Việt.";
+                chatHistory.push({ role: "user", parts: [{ text: userText }] });
 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=`;
                 const payload = {
-                    contents: [{ parts: [{ text: userText }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                    contents: chatHistory,
+                    systemInstruction: {
+                        parts: [{ text: "You are K-GPT, an advanced AI assistant. Current date is October 28, 2026. Current location is Hue, Vietnam. Provide precise, intelligent, well-structured, up-to-date answers in Vietnamese." }]
+                    }
                 };
 
                 const response = await fetch(apiUrl, {
@@ -604,35 +425,39 @@
                 const result = await response.json();
                 removeChatLoading(loadingId);
 
-                if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
-                    const aiReply = result.candidates[0].content.parts[0].text;
-                    appendChatMessage('ai', aiReply);
-                    addHistoryItem('chat', userText);
+                const candidate = result.candidates?.[0];
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const aiText = candidate.content.parts[0].text;
+                    chatHistory.push({ role: "model", parts: [{ text: aiText }] });
+                    appendChatMessage('ai', formatMarkdown(aiText));
                 } else {
-                    appendChatMessage('ai', 'Xin lỗi, K-GPT chưa thể xử lý yêu cầu này lúc này. Vui lòng thử lại sau giây lát!');
+                    appendChatMessage('ai', formatMarkdown("Xin lỗi, hệ thống đang gặp gián đoạn tạm thời. Vui lòng thử lại sau."));
                 }
             } catch (err) {
                 removeChatLoading(loadingId);
-                appendChatMessage('ai', 'Kết nối mạng gặp sự cố hoặc API quá tải. Vui lòng kiểm tra lại!');
-                console.error(err);
+                appendChatMessage('ai', formatMarkdown("Đã xảy ra lỗi kết nối đến máy chủ AI. Vui lòng kiểm tra lại."));
             }
         }
 
-        function appendChatMessage(sender, text) {
+        function formatMarkdown(text) {
+            return text
+                .replace(/### (.*?)\n/g, '<h3>$1</h3>')
+                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function appendChatMessage(sender, htmlContent) {
             const container = document.getElementById('chatMessages');
             const msgDiv = document.createElement('div');
-            msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-3`;
-
-            const bubble = document.createElement('div');
-            if (sender === 'user') {
-                bubble.className = "max-w-[80%] bg-indigo-600 text-white p-3.5 rounded-2xl rounded-tr-none text-sm shadow-md";
-                bubble.innerText = text;
-            } else {
-                bubble.className = "max-w-[85%] bg-slate-900 border border-slate-800 text-slate-100 p-4 rounded-2xl rounded-tl-none text-sm shadow-lg leading-relaxed whitespace-pre-wrap";
-                bubble.innerHTML = `<div class="flex items-center space-x-2 text-indigo-400 font-bold text-xs mb-1.5"><i class="fa-solid fa-brain"></i> <span>K-GPT AI</span></div>` + text;
-            }
-
-            msgDiv.appendChild(bubble);
+            msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-4`;
+            msgDiv.innerHTML = `
+                <div class="${sender === 'user' ? 'bg-indigo-600 text-white rounded-2xl rounded-tr-sm' : 'bg-slate-900 border border-slate-800 text-slate-100 rounded-2xl rounded-tl-sm markdown-body'} p-4 max-w-[85%] text-sm shadow-md">
+                    ${htmlContent}
+                </div>
+            `;
             container.appendChild(msgDiv);
             container.scrollTop = container.scrollHeight;
         }
@@ -642,13 +467,8 @@
             const id = 'loading-' + Date.now();
             const msgDiv = document.createElement('div');
             msgDiv.id = id;
-            msgDiv.className = "flex justify-start mb-3";
-            msgDiv.innerHTML = `
-                <div class="bg-slate-900 border border-slate-800 text-slate-400 p-3 rounded-2xl rounded-tl-none text-xs flex items-center space-x-2">
-                    <div class="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                    <span>K-GPT đang suy nghĩ...</span>
-                </div>
-            `;
+            msgDiv.className = "flex justify-start mb-4";
+            msgDiv.innerHTML = `<div class="bg-slate-900 border border-slate-800 text-slate-400 p-4 rounded-2xl text-xs flex items-center gap-3"><div class="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div><span>KGPT đang tư duy và tổng hợp câu trả lời...</span></div>`;
             container.appendChild(msgDiv);
             container.scrollTop = container.scrollHeight;
             return id;
@@ -659,232 +479,99 @@
             if (el) el.remove();
         }
 
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const imgEl = document.getElementById('attachedImg');
+                const nameEl = document.getElementById('attachedImgName');
+                const previewEl = document.getElementById('attachedImagePreview');
+                if (imgEl) imgEl.src = evt.target.result;
+                if (nameEl) nameEl.innerText = file.name;
+                if (previewEl) previewEl.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeAttachedImage() {
+            const previewEl = document.getElementById('attachedImagePreview');
+            if (previewEl) previewEl.classList.add('hidden');
+        }
+
         function fillPrompt(text) {
-            document.getElementById('chatInput').value = text;
-            document.getElementById('chatInput').focus();
+            const input = document.getElementById('chatInput');
+            if (input) {
+                input.value = text;
+                input.focus();
+            }
         }
 
-        // IMAGE GENERATION LOGIC
-        function selectStyle(btn, styleName) {
-            document.querySelectorAll('.style-btn').forEach(b => {
-                b.className = "style-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center";
-            });
-            btn.className = "style-btn active border-purple-500 bg-purple-600/20 text-white p-2 text-xs rounded-xl border font-medium text-center";
-            selectedImgStyle = styleName;
-        }
-
-        function selectRatio(btn, ratio) {
-            document.querySelectorAll('.ratio-btn').forEach(b => {
-                b.className = "ratio-btn border-slate-800 bg-slate-900 text-slate-400 p-2 text-xs rounded-xl border font-medium text-center";
-            });
-            btn.className = "ratio-btn active border-indigo-500 bg-indigo-600/20 text-white p-2 text-xs rounded-xl border font-medium text-center";
-            selectedImgRatio = ratio;
+        function openFeedbackModal() { document.getElementById('feedbackModal').classList.remove('hidden'); }
+        function closeFeedbackModal() { document.getElementById('feedbackModal').classList.add('hidden'); }
+        function submitFeedback(e) {
+            e.preventDefault();
+            alert('Cảm ơn bạn đã gửi góp ý!');
+            closeFeedbackModal();
         }
 
         function generateImage() {
-            const prompt = document.getElementById('imagePrompt').value.trim();
+            const promptEl = document.getElementById('imagePrompt');
+            const prompt = promptEl ? promptEl.value.trim() : '';
             if (!prompt) {
-                alert('Vui lòng nhập mô tả ý tưởng hình ảnh!');
+                alert('Vui lòng nhập mô tả hình ảnh!');
                 return;
             }
-
             document.getElementById('imgPlaceholder').classList.add('hidden');
             document.getElementById('imgResultContainer').classList.add('hidden');
             document.getElementById('imgLoading').classList.remove('hidden');
 
-            // Simulate high quality AI artwork generation with Placehold API & dynamic canvas styling
             setTimeout(() => {
                 document.getElementById('imgLoading').classList.add('hidden');
-                
-                // Demo images curated based on style
-                const styleSeed = encodeURIComponent(prompt + " " + selectedImgStyle);
-                const imgUrl = `https://picsum.photos/800/800?random=${Math.floor(Math.random() * 1000)}`;
-
-                const imgResult = document.getElementById('imgResult');
-                imgResult.src = imgUrl;
-
-                document.getElementById('downloadImgBtn').href = imgUrl;
                 document.getElementById('imgResultContainer').classList.remove('hidden');
-
-                addHistoryItem('image', prompt);
-            }, 2500);
-        }
-
-        function copyImgPrompt() {
-            const prompt = document.getElementById('imagePrompt').value;
-            navigator.clipboard.writeText(prompt);
-            alert('Đã sao chép prompt hình ảnh vào bộ nhớ tạm!');
-        }
-
-        // VIDEO GENERATION LOGIC
-        function updateMotionLabel(val) {
-            const labels = ['Thấp (Slow)', 'Trung bình (Medium)', 'Cao (Fast)'];
-            document.getElementById('motionVal').innerText = labels[val - 1];
+                document.getElementById('imgResult').src = `https://placehold.co/800x600/111726/6366F1?text=${encodeURIComponent(prompt.substring(0, 30))}`;
+            }, 1800);
         }
 
         function generateVideo() {
-            const prompt = document.getElementById('videoPrompt').value.trim();
+            const promptEl = document.getElementById('videoPrompt');
+            const prompt = promptEl ? promptEl.value.trim() : '';
             if (!prompt) {
-                alert('Vui lòng nhập kịch bản video!');
+                alert('Vui lòng nhập ý tưởng kịch bản video!');
                 return;
             }
-
             document.getElementById('vidPlaceholder').classList.add('hidden');
             document.getElementById('vidResultContainer').classList.add('hidden');
             document.getElementById('vidLoading').classList.remove('hidden');
-            
-            const progressBar = document.getElementById('vidProgressBar');
-            progressBar.style.width = '0%';
 
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 10;
-                progressBar.style.width = progress + '%';
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    renderVideoCanvasPreview();
-                    document.getElementById('vidLoading').classList.add('hidden');
-                    document.getElementById('vidResultContainer').classList.remove('hidden');
-                    addHistoryItem('video', prompt);
-                }
-            }, 300);
-        }
-
-        function renderVideoCanvasPreview() {
-            const canvas = document.getElementById('videoCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 640;
-            canvas.height = 360;
-
-            let frame = 0;
-            if (videoAnimInterval) clearInterval(videoAnimInterval);
-
-            videoAnimInterval = setInterval(() => {
-                frame++;
-                // Draw animated generative particle background simulating video render
-                ctx.fillStyle = '#090D16';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                // Grid Lines
-                ctx.strokeStyle = 'rgba(236, 72, 153, 0.15)';
-                ctx.lineWidth = 1;
-                for (let x = 0; x < canvas.width; x += 40) {
-                    ctx.beginPath();
-                    ctx.moveTo(x, 0);
-                    ctx.lineTo(x, canvas.height);
-                    ctx.stroke();
-                }
-
-                // Glowing Particles
-                for (let i = 0; i < 35; i++) {
-                    const radius = (Math.sin(frame * 0.05 + i) + 1.5) * 6;
-                    const x = (Math.cos(i * 99 + frame * 0.02) * 0.5 + 0.5) * canvas.width;
-                    const y = (Math.sin(i * 33 + frame * 0.03) * 0.5 + 0.5) * canvas.height;
-
-                    ctx.beginPath();
-                    ctx.arc(x, y, radius, 0, Math.PI * 2);
-                    ctx.fillStyle = i % 2 === 0 ? 'rgba(99, 102, 241, 0.8)' : 'rgba(236, 72, 153, 0.8)';
-                    ctx.fill();
-                }
-
-                // Title overlay inside video
-                ctx.fillStyle = '#FFFFFF';
-                ctx.font = 'bold 16px Plus Jakarta Sans';
-                ctx.fillText('K-GPT AI Rendered Motion Scene', 30, 50);
+            setTimeout(() => {
+                document.getElementById('vidLoading').classList.add('hidden');
+                document.getElementById('vidResultContainer').classList.remove('hidden');
                 
-                ctx.fillStyle = '#94A3B8';
-                ctx.font = '12px Plus Jakarta Sans';
-                ctx.fillText('Frame: ' + frame + ' | Camera: ' + document.getElementById('videoCamera').value, 30, 75);
+                const canvas = document.getElementById('videoCanvas');
+                canvas.width = 640;
+                canvas.height = 360;
+                const ctx = canvas.getContext('2d');
+                let hue = 210;
+                
+                function drawFrame() {
+                    ctx.fillStyle = `hsl(${hue}, 60%, 15%)`;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 18px Plus Jakarta Sans';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('🎬 K-GPT Motion Simulation', canvas.width/2, 160);
+                    
+                    ctx.font = '13px Plus Jakarta Sans';
+                    ctx.fillStyle = '#94A3B8';
+                    ctx.fillText(prompt.substring(0, 45) + '...', canvas.width/2, 200);
 
-            }, 30);
-        }
-
-        function triggerVidPlay() {
-            renderVideoCanvasPreview();
-        }
-
-        function copyVidPrompt() {
-            const prompt = document.getElementById('videoPrompt').value;
-            navigator.clipboard.writeText(prompt);
-            alert('Đã sao chép kịch bản video!');
-        }
-
-        // VISITOR STATS SIMULATOR
-        function initVisitorStats() {
-            // Realtime Random Online counter between 18 and 42
-            const onlineEl = document.getElementById('statOnline');
-            const totalEl = document.getElementById('statTotal');
-
-            let currentOnline = Math.floor(Math.random() * 15) + 20;
-            let currentTotal = 128540 + Math.floor(Math.random() * 50);
-
-            onlineEl.innerText = currentOnline;
-            totalEl.innerText = currentTotal.toLocaleString();
-
-            setInterval(() => {
-                const delta = Math.floor(Math.random() * 5) - 2;
-                currentOnline = Math.max(12, currentOnline + delta);
-                onlineEl.innerText = currentOnline;
-
-                if (Math.random() > 0.6) {
-                    currentTotal += 1;
-                    totalEl.innerText = currentTotal.toLocaleString();
+                    hue = (hue + 0.5) % 360;
+                    requestAnimationFrame(drawFrame);
                 }
-            }, 4000);
-        }
-
-        // HISTORY MANAGEMENT
-        const historyData = [
-            { type: 'chat', title: 'Giải thích nguyên lý AI Transformer' },
-            { type: 'image', title: 'Thành phố Cyberpunk mưa đêm' },
-            { type: 'video', title: 'Drone lướt qua rặng núi mây' }
-        ];
-
-        function renderHistoryItems() {
-            const container = document.getElementById('historyList');
-            container.innerHTML = '';
-
-            historyData.forEach((item, index) => {
-                let iconClass = 'fa-comments text-indigo-400';
-                if (item.type === 'image') iconClass = 'fa-wand-magic-sparkles text-purple-400';
-                if (item.type === 'video') iconClass = 'fa-film text-pink-400';
-
-                const div = document.createElement('div');
-                div.className = "flex items-center space-x-2 p-2 rounded-xl hover:bg-slate-800/60 cursor-pointer text-xs text-slate-300 transition group";
-                div.innerHTML = `
-                    <i class="fa-solid ${iconClass}"></i>
-                    <span class="truncate flex-1">${item.title}</span>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function addHistoryItem(type, title) {
-            historyData.unshift({ type, title: title.substring(0, 30) + '...' });
-            if (historyData.length > 10) historyData.pop();
-            renderHistoryItems();
-        }
-
-        function clearCurrentSession() {
-            document.getElementById('chatMessages').innerHTML = '';
-            document.getElementById('imagePrompt').value = '';
-            document.getElementById('videoPrompt').value = '';
-            alert('Đã làm sạch phiên làm việc!');
-        }
-
-        // MODAL HANDLERS
-        function openFeedbackModal() {
-            document.getElementById('feedbackModal').classList.remove('hidden');
-        }
-
-        function closeFeedbackModal() {
-            document.getElementById('feedbackModal').classList.add('hidden');
-        }
-
-        function handleFeedbackSubmit(e) {
-            e.preventDefault();
-            alert('Cảm ơn bạn đã gửi đóng góp ý kiến cho K-GPT! Ban quản trị sẽ phản hồi sớm nhất.');
-            closeFeedbackModal();
+                drawFrame();
+            }, 1500);
         }
     </script>
 </body>
